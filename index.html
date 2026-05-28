@@ -152,93 +152,42 @@ function getItem(id){return S.items.find(i=>i.id===id)}
 function updItem(id,p){const x=S.items.findIndex(i=>i.id===id);if(x>=0)S.items[x]={...S.items[x],...p}}
 function errMsg(e){if(!e)return'Unknown error';if(typeof e==='string')return e;if(e.message)return e.message;try{return JSON.stringify(e)}catch{return String(e)}}
 
-// ── Tesseract init ────────────────────────────────────────────────────────────
-// Only specifies workerPath (required when loaded from CDN).
-// corePath and langPath are intentionally omitted so Tesseract uses its own
-// internal defaults — guaranteed compatible with the worker version loaded.
+// ── Tesseract v2 init ─────────────────────────────────────────────────────────
+// Using v2 (not v4) — stable CDN paths, no LSTM/SIMD WASM compatibility issues.
+// All three paths pinned to known-good unpkg versions.
+const T2_OPTS={
+  workerPath:'https://unpkg.com/tesseract.js@2.1.5/dist/worker.min.js',
+  corePath:  'https://unpkg.com/tesseract.js-core@2.2.0/tesseract-core.wasm.js',
+  langPath:  'https://tessdata.projectnaptha.com/4.0.0',
+  gzip:false,
+  logger:()=>{},
+};
+
 function initOCR(){
-  // Tesseract script loaded — mark ready immediately.
-  // The first recognize() call will download WASM + lang data (~5MB, then cached).
   if(typeof Tesseract==='undefined'){
-    S.ocrState='failed';
-    setOcrUI('failed','⚠ OCR library not loaded');
-    return;
+    S.ocrState='failed';setOcrUI('failed','⚠ OCR library not loaded');return;
   }
   S.ocrState='ready';
-  setOcrUI('ready','✓ OCR ready — first scan downloads ~5MB');
+  setOcrUI('ready','✓ OCR ready (first scan ~5s download)');
 }
 function setOcrUI(cls,txt){const el=document.getElementById('ocr-txt');el.className='ocrs '+cls;el.innerHTML=txt}
 
-// Worker path — only CDN path needed; Tesseract auto-resolves core & lang
-const WORKER_PATH='https://cdn.jsdelivr.net/npm/tesseract.js@4.1.4/dist/worker.min.js';
-
-// ── Image resize (keep file small for the worker postMessage) ─────────────────
-function resizeImage(file){
-  return new Promise(res=>{
-    const img=new Image(),url=URL.createObjectURL(file);
-    img.onload=()=>{
-      URL.revokeObjectURL(url);
-      try{
-        const MAX=1400;
-        let w=img.naturalWidth,h=img.naturalHeight;
-        if(w>MAX||h>MAX){const r=Math.min(MAX/w,MAX/h);w=w*r|0;h=h*r|0}
-        const cv=document.createElement('canvas');cv.width=w;cv.height=h;
-        const ctx=cv.getContext('2d');ctx.drawImage(img,0,0,w,h);
-        // Mild contrast boost only — avoid over-processing
-        const id=ctx.getImageData(0,0,w,h),d=id.data;
-        for(let i=0;i<d.length;i+=4){
-          const g=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];
-          const c=Math.min(255,Math.max(0,(g-128)*1.4+128));
-          d[i]=d[i+1]=d[i+2]=c;
-        }
-        ctx.putImageData(id,0,0);
-        cv.toBlob(b=>res(b||file),'image/jpeg',0.85);
-      }catch(e){res(file)}
-    };
-    img.onerror=()=>{URL.revokeObjectURL(url);res(file)};
-    img.src=url;
-  });
-}
-
-// ── OCR queue — sequential calls, one worker kept alive per session ───────────
-let _ocrWorker=null;
-async function _ensureWorker(){
-  if(_ocrWorker)return _ocrWorker;
-  _ocrWorker=await Tesseract.createWorker('eng',1,{
-    workerPath:WORKER_PATH,
-    logger:()=>{},
-  });
-  return _ocrWorker;
-}
-async function _resetWorker(){
-  if(_ocrWorker){try{await _ocrWorker.terminate()}catch(e){}}
-  _ocrWorker=null;
-}
-
+// ── Sequential OCR queue ──────────────────────────────────────────────────────
 async function ocrPhoto(itemId,photoId){
   ocrQ=ocrQ.then(()=>_doOcr(itemId,photoId)).catch(()=>{});
   return ocrQ;
 }
+
 async function _doOcr(itemId,photoId){
   const item=getItem(itemId);if(!item)return;
   const photo=item.photos.find(p=>p.id===photoId);
   if(!photo||photo.status==='done')return;
   photo.status='scanning';photo.error='';render();
   try{
-    if(S.ocrState!=='ready')throw new Error('OCR engine not ready');
-    const blob=await resizeImage(photo.file);
-    let result;
-    try{
-      // Try with persistent worker first
-      const w=await _ensureWorker();
-      result=await w.recognize(blob);
-    }catch(workerErr){
-      // Worker in bad state — reset and retry once with a fresh worker
-      console.warn('Worker error, resetting:',workerErr);
-      await _resetWorker();
-      const w=await _ensureWorker();
-      result=await w.recognize(blob);
-    }
+    if(S.ocrState!=='ready')throw new Error('OCR engine not ready — reload the page');
+    // Tesseract v2: top-level recognize() manages worker lifecycle internally
+    // Pass original File — v2 handles Blob/File natively via FileReader
+    const result=await Tesseract.recognize(photo.file,'eng',T2_OPTS);
     const text=result?.data?.text??'';
     photo.status='done';photo.ocrText=text.trim();
   }catch(err){
@@ -528,7 +477,7 @@ window.addEventListener('tesseract-ready',initOCR);
 </script>
 
 <script
-  src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.4/dist/tesseract.min.js"
+  src="https://unpkg.com/tesseract.js@2.1.5/dist/tesseract.min.js"
   onload="window.dispatchEvent(new Event('tesseract-ready'))"
   onerror="(function(){S.ocrState='failed';document.getElementById('ocr-txt').className='ocrs failed';document.getElementById('ocr-txt').innerHTML='⚠ Could not load OCR library'})()">
 </script>
