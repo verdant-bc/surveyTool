@@ -159,7 +159,13 @@ function errMsg(e){if(!e)return'Unknown error';if(typeof e==='string')return e;i
 // When loaded from unpkg, the library auto-resolves worker, core, and language
 // data URLs relative to itself. Overriding any of them risks version mismatch
 // or endsWith() undefined errors. Only logger is overridden.
-const T2_OPTS={ logger:()=>{} };
+const T2_OPTS = {
+  workerPath: "https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/worker.min.js",
+  corePath: "https://cdn.jsdelivr.net/npm/tesseract.js-core@2.2.0/tesseract-core.wasm.js",
+  langPath: "https://tessdata.projectnaptha.com/4.0.0",
+  gzip: true,
+  logger: () => {}
+};
 
 function initOCR(){
   if(typeof Tesseract==='undefined'){
@@ -508,7 +514,7 @@ window.addEventListener('tesseract-ready',initOCR);
 </script>
 
 <script
-  src="https://unpkg.com/tesseract.js@2.1.5/dist/tesseract.min.js"
+  src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/tesseract.min.js"
   onload="window.dispatchEvent(new Event('tesseract-ready'))"
   onerror="(function(){S.ocrState='failed';document.getElementById('ocr-txt').className='ocrs failed';document.getElementById('ocr-txt').innerHTML='⚠ Could not load OCR library'})()">
 </script>
