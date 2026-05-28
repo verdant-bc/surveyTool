@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Verdant — Nameplate Survey v1.7</title>
+<title>Verdant — Nameplate Survey v1.8</title>
 <style>
 :root{
   --dk:#0E321C;--md:#1B5E38;--ac:#97B23E;--lt:#C5CD9F;
@@ -116,7 +116,7 @@ textarea{resize:vertical;line-height:1.55}
   <div class="hi">
     <div>
       <div class="hbrand">Verdant Energy Consulting</div>
-      <div class="htitle">Nameplate Survey <span class="hver">v1.7</span></div>
+      <div class="htitle">Nameplate Survey <span class="hver">v1.8</span></div>
     </div>
     <div style="text-align:right">
       <div id="ocr-txt" class="ocrs loading"><span class="spin">⟳</span> Loading OCR…</div>
@@ -131,7 +131,7 @@ textarea{resize:vertical;line-height:1.55}
 <div id="main"><div id="root"></div></div>
 
 <script>
-const APP_VER='v1.7';
+const APP_VER='v1.8';
 const HTYPES=['Single-family detached','Single-family attached','Manufactured home','Apartment / multifamily','Commercial','Other'];
 const ATYPES=['Water Heater','Furnace / Boiler','Heat Pump','Air Conditioner','Refrigerator','Freezer','Dishwasher','Clothes Washer','Clothes Dryer','Range / Oven','Electrical Panel','Other'];
 
@@ -159,7 +159,8 @@ const T2_OPTS={
   workerPath:'https://unpkg.com/tesseract.js@2.1.5/dist/worker.min.js',
   corePath:  'https://unpkg.com/tesseract.js-core@2.2.0/tesseract-core.wasm.js',
   langPath:  'https://tessdata.projectnaptha.com/4.0.0',
-  gzip:false,
+  // gzip:true is required — tessdata CDN only serves .traineddata.gz files
+  gzip:true,
   logger:()=>{},
 };
 
@@ -178,6 +179,39 @@ async function ocrPhoto(itemId,photoId){
   return ocrQ;
 }
 
+// Resize + grayscale image to a safe size for the v2 WASM heap
+// Mobile camera photos can be 10MB+; WASM needs <2MB input to avoid abort()
+function prepareForOCR(file){
+  return new Promise(res=>{
+    const img=new Image(), url=URL.createObjectURL(file);
+    img.onload=()=>{
+      URL.revokeObjectURL(url);
+      try{
+        // Max 900px on longest side — enough for nameplate text, safe for WASM
+        const MAX=900;
+        let w=img.naturalWidth, h=img.naturalHeight;
+        if(w>MAX||h>MAX){const r=Math.min(MAX/w,MAX/h);w=Math.round(w*r);h=Math.round(h*r);}
+        const cv=document.createElement('canvas');
+        cv.width=w; cv.height=h;
+        const ctx=cv.getContext('2d');
+        ctx.drawImage(img,0,0,w,h);
+        // Grayscale + mild contrast boost
+        const id=ctx.getImageData(0,0,w,h), d=id.data;
+        for(let i=0;i<d.length;i+=4){
+          const g=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];
+          const c=Math.min(255,Math.max(0,(g-128)*1.4+128));
+          d[i]=d[i+1]=d[i+2]=c;
+        }
+        ctx.putImageData(id,0,0);
+        // toBlob is async but reliable; fall back to original file if it fails
+        cv.toBlob(blob=>res(blob||file),'image/jpeg',0.82);
+      }catch(e){console.warn('Preprocess failed, using original',e);res(file);}
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);res(file);};
+    img.src=url;
+  });
+}
+
 async function _doOcr(itemId,photoId){
   const item=getItem(itemId);if(!item)return;
   const photo=item.photos.find(p=>p.id===photoId);
@@ -185,9 +219,9 @@ async function _doOcr(itemId,photoId){
   photo.status='scanning';photo.error='';render();
   try{
     if(S.ocrState!=='ready')throw new Error('OCR engine not ready — reload the page');
-    // Tesseract v2: top-level recognize() manages worker lifecycle internally
-    // Pass original File — v2 handles Blob/File natively via FileReader
-    const result=await Tesseract.recognize(photo.file,'eng',T2_OPTS);
+    // Resize first — prevents WASM abort() on large mobile photos
+    const src=await prepareForOCR(photo.file);
+    const result=await Tesseract.recognize(src,'eng',T2_OPTS);
     const text=result?.data?.text??'';
     photo.status='done';photo.ocrText=text.trim();
   }catch(err){
