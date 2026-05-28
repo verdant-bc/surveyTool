@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Nameplate Survey</title>
+<title>Nameplate Survey v1.4</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#f1f5f9;color:#0f172a;min-height:100vh}
@@ -25,7 +25,6 @@ textarea{resize:vertical;line-height:1.5}
 .btn-blue{background:#2563eb;color:#fff}
 .btn-outline{background:#fff;color:#1e3a5f;border:1.5px solid #cbd5e1}
 .btn-sm{padding:8px 13px;font-size:13px}
-.btn-xs{padding:5px 9px;font-size:12px}
 .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700}
 .p-high{background:#dcfce7;color:#15803d}
 .p-med{background:#fef3c7;color:#b45309}
@@ -34,21 +33,17 @@ textarea{resize:vertical;line-height:1.5}
 .p-scan{background:#dbeafe;color:#1d4ed8}
 .p-none{background:#f1f5f9;color:#64748b}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-/* Photo strip */
 .photo-strip{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 8px;-webkit-overflow-scrolling:touch}
 .photo-strip::-webkit-scrollbar{height:4px}
-.photo-strip::-webkit-scrollbar-track{background:#f1f5f9;border-radius:2px}
 .photo-strip::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px}
 .photo-thumb{position:relative;flex-shrink:0;width:110px;height:90px;border-radius:9px;overflow:hidden;border:1.5px solid #e2e8f0;background:#f8fafc}
 .photo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.photo-thumb .del-photo{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(15,23,42,.65);color:#fff;border:none;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center}
-.photo-thumb .scan-overlay{position:absolute;inset:0;background:rgba(37,99,235,.35);display:flex;align-items:center;justify-content:center}
-.photo-thumb .done-badge{position:absolute;bottom:4px;left:4px;background:#15803d;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px}
-.photo-thumb .err-badge{position:absolute;bottom:4px;left:4px;background:#dc2626;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px}
-.add-photo-btn{flex-shrink:0;width:110px;height:90px;border-radius:9px;border:1.5px dashed #94a3b8;background:#f8fafc;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:4px;color:#64748b;font-size:12px;font-weight:600}
-.add-photo-btn .icon{font-size:24px}
-.photo-actions{display:flex;gap:8px;flex-wrap:wrap}
-.status-bar{padding:9px 13px;font-size:13px;display:flex;align-items:center;gap:8px;border-top:1px solid}
+.del-photo{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(15,23,42,.7);color:#fff;border:none;cursor:pointer;font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center}
+.scan-overlay{position:absolute;inset:0;background:rgba(37,99,235,.4);display:flex;align-items:center;justify-content:center}
+.done-badge{position:absolute;bottom:4px;left:4px;background:#15803d;color:#fff;font-size:10px;font-weight:700;padding:2px 5px;border-radius:4px}
+.err-badge{position:absolute;bottom:4px;left:4px;background:#dc2626;color:#fff;font-size:10px;font-weight:700;padding:2px 5px;border-radius:4px}
+.photo-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.sbar{padding:9px 13px;font-size:13px;display:flex;align-items:flex-start;gap:8px;border-top:1px solid}
 .s-scan{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
 .s-done{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
 .s-err{background:#fef2f2;border-color:#fecaca;color:#b91c1c}
@@ -70,7 +65,8 @@ textarea{resize:vertical;line-height:1.5}
 .slbl{font-size:11px;font-weight:700;margin-top:4px;text-align:center}
 #hdr{background:#1e3a5f;color:#fff;padding:12px 15px;position:sticky;top:0;z-index:100}
 .hi{display:flex;align-items:center;justify-content:space-between;max-width:640px;margin:0 auto}
-.ht{font-size:17px;font-weight:800}
+.ht{font-size:17px;font-weight:800;display:flex;align-items:baseline;gap:7px}
+.hv{font-size:11px;font-weight:700;background:rgba(255,255,255,.15);padding:2px 7px;border-radius:5px;letter-spacing:.04em}
 .hs{font-size:10px;color:#93c5fd;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
 #main{max-width:640px;margin:0 auto;padding:15px 13px 50px}
 .ocrs{font-size:11px;margin-top:3px}
@@ -81,6 +77,7 @@ textarea{resize:vertical;line-height:1.5}
 .pbar{height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin-top:4px}
 .pfill{height:100%;border-radius:2px;background:#4ade80;transition:width .4s}
 .nbx{margin-top:8px;background:#f8fafc;border-radius:8px;padding:8px 11px;font-size:12px;color:#64748b;line-height:1.5}
+.err-detail{font-size:11px;opacity:.8;margin-top:2px;word-break:break-word}
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 .spin{display:inline-block;animation:spin .9s linear infinite}
 </style>
@@ -91,7 +88,7 @@ textarea{resize:vertical;line-height:1.5}
   <div class="hi">
     <div>
       <div class="hs">🏠 Home Equipment Survey</div>
-      <div class="ht">Nameplate Data Collection</div>
+      <div class="ht">Nameplate Collection <span class="hv">v1.4</span></div>
     </div>
     <div style="text-align:right">
       <div id="ocr-txt" class="ocrs loading"><span class="spin">⟳</span> Loading OCR…</div>
@@ -106,7 +103,7 @@ textarea{resize:vertical;line-height:1.5}
 <div id="main"><div id="root"></div></div>
 
 <script>
-// ── Constants ─────────────────────────────────────────────────────────────────
+const APP_VER='v1.4';
 const HTYPES=['Single-family detached','Single-family attached','Manufactured home','Apartment / multifamily','Commercial','Other'];
 const ATYPES=['Water Heater','Furnace / Boiler','Heat Pump','Air Conditioner','Refrigerator','Freezer','Dishwasher','Clothes Washer','Clothes Dryer','Range / Oven','Electrical Panel','Other'];
 
@@ -117,42 +114,35 @@ const S={
   items:[mkItem()],
 };
 let OCR=null;
+// Sequential OCR queue — prevents concurrent recognize() calls crashing the worker
+let ocrQueue=Promise.resolve();
 
 function uid(){return Math.random().toString(36).slice(2,10)}
-
-function mkItem(){
-  return{id:uid(),type:'Water Heater',location:'',
-    photos:[], // [{id,preview,status:'idle'|'scanning'|'done'|'error',ocrText,error}]
-    combinedOcr:'', scanning:false,
-    data:{manufacturer:'',model:'',serial:'',year:'',capacity:'',fuel:'',
-          efficiency:'',voltage:'',inputOutput:'',notes:'',confidence:'Not processed'}};
-}
-
-function mkPhoto(file,preview){
-  return{id:uid(),file,preview,status:'idle',ocrText:'',error:''};
-}
-
+function mkItem(){return{id:uid(),type:'Water Heater',location:'',photos:[],combinedOcr:'',data:{manufacturer:'',model:'',serial:'',year:'',capacity:'',fuel:'',efficiency:'',voltage:'',inputOutput:'',notes:'',confidence:'Not processed'}}}
+function mkPhoto(file,preview){return{id:uid(),file,preview,status:'idle',ocrText:'',error:''}}
 function getItem(id){return S.items.find(i=>i.id===id)}
 function updItem(id,p){const x=S.items.findIndex(i=>i.id===id);if(x>=0)S.items[x]={...S.items[x],...p}}
+function errMsg(e){
+  if(!e) return 'Unknown error';
+  if(typeof e==='string') return e;
+  if(e.message) return e.message;
+  try{return JSON.stringify(e)}catch{return String(e)}
+}
 
-// ── Tesseract v4 init ─────────────────────────────────────────────────────────
+// ── Tesseract v4 — correct async createWorker API ─────────────────────────────
 async function initOCR(){
   try{
-    // Detect SIMD support
     let simd=false;
     try{simd=WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,0,0,1,5,1,96,0,1,123,3,2,1,0,10,10,1,8,0,65,0,253,15,253,98,11]))}catch(e){}
-
     const base='https://cdn.jsdelivr.net/npm/tesseract.js@4.1.4/dist/';
     const cbase='https://cdn.jsdelivr.net/npm/tesseract.js-core@3.0.2/';
-
-    // v4 createWorker is ASYNC — pass lang as first arg, no manual load/init needed
+    // v4: createWorker IS async — first arg is language string, handles load/init internally
     OCR=await Tesseract.createWorker('eng',1,{
-      workerPath: base+'worker.min.js',
-      langPath:   'https://tessdata.projectnaptha.com/4.0.0',
-      corePath:   cbase+(simd?'tesseract-core-simd.wasm.js':'tesseract-core.wasm.js'),
+      workerPath:base+'worker.min.js',
+      langPath:'https://tessdata.projectnaptha.com/4.0.0',
+      corePath:cbase+(simd?'tesseract-core-simd.wasm.js':'tesseract-core.wasm.js'),
       logger:()=>{},
     });
-
     S.ocrState='ready';
     setOcrUI('ready','✓ OCR ready ('+(simd?'SIMD':'compat')+')');
   }catch(err){
@@ -161,106 +151,108 @@ async function initOCR(){
     setOcrUI('failed','⚠ OCR unavailable — manual mode');
   }
 }
+function setOcrUI(cls,txt){const el=document.getElementById('ocr-txt');el.className='ocrs '+cls;el.innerHTML=txt}
 
-function setOcrUI(cls,txt){
-  const el=document.getElementById('ocr-txt');
-  el.className='ocrs '+cls; el.innerHTML=txt;
-}
-
-// ── Image preprocess → Blob (more compatible than passing canvas) ─────────────
-function processFile(file){
-  return new Promise((res,rej)=>{
-    const img=new Image(), url=URL.createObjectURL(file);
+// ── Image → data URL (toDataURL is sync & universally supported vs toBlob) ────
+function prepareImage(file){
+  return new Promise((res)=>{
+    const img=new Image();
+    const url=URL.createObjectURL(file);
     img.onload=()=>{
       URL.revokeObjectURL(url);
-      const MAX=2400; let w=img.naturalWidth,h=img.naturalHeight;
-      if(w>MAX||h>MAX){const r=Math.min(MAX/w,MAX/h);w=w*r|0;h=h*r|0}
-      const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
-      const ctx=cv.getContext('2d'); ctx.drawImage(img,0,0,w,h);
-      const id=ctx.getImageData(0,0,w,h); const d=id.data;
-      // Grayscale + contrast boost
-      const cf=(259*(1.6*255+255))/(255*(259-1.6*255));
-      for(let i=0;i<d.length;i+=4){
-        const g=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];
-        const e=Math.min(255,Math.max(0,cf*(g-128)+128));
-        d[i]=d[i+1]=d[i+2]=e;
+      try{
+        const MAX=2000;
+        let w=img.naturalWidth,h=img.naturalHeight;
+        if(w>MAX||h>MAX){const r=Math.min(MAX/w,MAX/h);w=w*r|0;h=h*r|0}
+        const cv=document.createElement('canvas');
+        cv.width=w;cv.height=h;
+        const ctx=cv.getContext('2d');
+        ctx.drawImage(img,0,0,w,h);
+        // Grayscale + moderate contrast
+        const id=ctx.getImageData(0,0,w,h);const d=id.data;
+        const cf=(259*(1.5*255+255))/(255*(259-1.5*255));
+        for(let i=0;i<d.length;i+=4){
+          const g=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];
+          const e=Math.min(255,Math.max(0,cf*(g-128)+128));
+          d[i]=d[i+1]=d[i+2]=e;
+        }
+        ctx.putImageData(id,0,0);
+        // toDataURL is synchronous — more reliable than toBlob callback
+        res(cv.toDataURL('image/jpeg',0.88));
+      }catch(e){
+        // Canvas processing failed — fall back to original file object URL
+        console.warn('Preprocess failed, using original:',e);
+        res(URL.createObjectURL(file));
       }
-      ctx.putImageData(id,0,0);
-      // Convert to blob — more reliable than passing canvas to Tesseract
-      cv.toBlob(blob=>{
-        if(blob) res(blob);
-        else rej(new Error('Canvas toBlob failed'));
-      },'image/jpeg',0.92);
     };
-    img.onerror=e=>rej(new Error('Image load failed'));
+    img.onerror=()=>{
+      URL.revokeObjectURL(url);
+      // Can't even load — pass original file directly to Tesseract
+      res(file);
+    };
     img.src=url;
   });
 }
 
-// ── OCR a single photo, update its state ─────────────────────────────────────
-async function ocrPhoto(itemId, photoId){
-  if(S.ocrState!=='ready') return;
+// ── Run OCR on one photo (queued so worker is never called concurrently) ──────
+async function ocrPhoto(itemId,photoId){
+  ocrQueue=ocrQueue.then(()=>_doOcr(itemId,photoId));
+  return ocrQueue;
+}
+
+async function _doOcr(itemId,photoId){
   const item=getItem(itemId);
   if(!item) return;
   const photo=item.photos.find(p=>p.id===photoId);
-  if(!photo) return;
+  if(!photo||photo.status==='done') return;
 
-  // Mark as scanning
   photo.status='scanning'; photo.error='';
-  updItem(itemId,{scanning:true}); render();
+  render();
 
   try{
-    const blob=await processFile(photo.file);
-    const result=await OCR.recognize(blob);
-    // Safely extract text
-    const text=(result&&result.data&&typeof result.data.text==='string')
-      ? result.data.text.trim() : '';
-    photo.status='done'; photo.ocrText=text;
+    if(S.ocrState!=='ready') throw new Error('OCR engine not ready');
+    const src=await prepareImage(photo.file);
+    const result=await OCR.recognize(src);
+    const text=result?.data?.text ?? '';
+    if(typeof text!=='string') throw new Error('Unexpected OCR result format');
+    photo.status='done';
+    photo.ocrText=text.trim();
   }catch(err){
-    console.error('OCR error:',err);
-    const msg=err&&err.message ? err.message : (typeof err==='string'?err:'OCR failed');
-    photo.status='error'; photo.error=msg;
+    photo.status='error';
+    photo.error=errMsg(err);
+    console.error('OCR photo error:',err);
   }
 
-  // Combine all done OCR texts and re-parse
-  const fresh=getItem(itemId);
-  if(fresh){
-    const combined=fresh.photos.filter(p=>p.status==='done').map(p=>p.ocrText).join(' ');
-    const stillScanning=fresh.photos.some(p=>p.status==='scanning');
-    const parsedData=parseOCR(combined,fresh.type);
-    updItem(itemId,{combinedOcr:combined,scanning:stillScanning,data:parsedData});
-  }
+  // Rebuild combined OCR + re-parse from all completed photos
+  _rebuildCombined(itemId);
   render();
 }
 
-// ── Add photos (shared handler for camera + file) ─────────────────────────────
-async function addPhotos(itemId, files){
-  if(!files||!files.length) return;
+function _rebuildCombined(itemId){
   const item=getItem(itemId);
   if(!item) return;
+  const combined=item.photos.filter(p=>p.status==='done').map(p=>p.ocrText).filter(Boolean).join(' ');
+  updItem(itemId,{combinedOcr:combined,data:parseOCR(combined,item.type)});
+}
 
-  const newPhotos=[...item.photos];
+// ── Add photos ────────────────────────────────────────────────────────────────
+async function addPhotos(itemId,files){
+  if(!files||!files.length) return;
+  const item=getItem(itemId); if(!item) return;
   const toOcr=[];
   for(const file of Array.from(files)){
-    const preview=URL.createObjectURL(file);
-    const ph=mkPhoto(file,preview);
-    newPhotos.push(ph);
+    const ph=mkPhoto(file,URL.createObjectURL(file));
+    item.photos.push(ph);
     toOcr.push(ph.id);
   }
-  updItem(itemId,{photos:newPhotos,data:{...item.data,confidence:S.ocrState==='ready'?'Scanning...':'Not processed'}});
   render();
-
-  if(S.ocrState==='ready'){
-    for(const pid of toOcr) await ocrPhoto(itemId,pid);
-  }
+  for(const pid of toOcr) await ocrPhoto(itemId,pid);
 }
 
 function removePhoto(itemId,photoId){
   const item=getItem(itemId); if(!item) return;
-  const photos=item.photos.filter(p=>p.id!==photoId);
-  const combined=photos.filter(p=>p.status==='done').map(p=>p.ocrText).join(' ');
-  const data=combined ? parseOCR(combined,item.type) : {...item.data,confidence:'Not processed'};
-  updItem(itemId,{photos,combinedOcr:combined,data});
+  item.photos=item.photos.filter(p=>p.id!==photoId);
+  _rebuildCombined(itemId);
   render();
 }
 
@@ -268,13 +260,7 @@ function removePhoto(itemId,photoId){
 function wAfter(t,lbls,n=2){
   const pts=String(t||'').replace(/[:#]/g,' ').split(/\s+/).filter(Boolean);
   const up=pts.map(p=>p.toUpperCase());
-  for(const l of lbls){
-    const lp=l.toUpperCase().split(' ');
-    for(let i=0;i<=up.length-lp.length;i++){
-      if(up.slice(i,i+lp.length).join(' ')===lp.join(' '))
-        return pts.slice(i+lp.length,i+lp.length+n).join(' ');
-    }
-  }
+  for(const l of lbls){const lp=l.toUpperCase().split(' ');for(let i=0;i<=up.length-lp.length;i++){if(up.slice(i,i+lp.length).join(' ')===lp.join(' '))return pts.slice(i+lp.length,i+lp.length+n).join(' ')}}
   return '';
 }
 function fUnit(t,units){
@@ -284,7 +270,8 @@ function fUnit(t,units){
 }
 function iYear(s,t){const c=`${s} ${t}`;for(let y=1990;y<=2035;y++)if(c.includes(String(y)))return String(y);return ''}
 function parseOCR(text,app){
-  const raw=String(text||'').replace(/\r?\n/g,' ').trim(),up=raw.toUpperCase();
+  if(!text||!text.trim()) return{manufacturer:'',model:'',serial:'',year:'',capacity:'',fuel:'',efficiency:'',voltage:'',inputOutput:'',notes:'',confidence:'Not processed'};
+  const raw=String(text).replace(/\r?\n/g,' ').trim(),up=raw.toUpperCase();
   const manufacturer=wAfter(raw,['MANUFACTURER','MFR','MFG','BRAND','MAKE'],1);
   const model=wAfter(raw,['MODEL','MODEL NO','MODEL NUMBER','MOD'],1);
   const serial=wAfter(raw,['SERIAL','SERIAL NO','SERIAL NUMBER','S N','SER NO'],1);
@@ -301,8 +288,8 @@ function parseOCR(text,app){
 }
 
 // ── Export ────────────────────────────────────────────────────────────────────
-function dl(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click()}
-function exportJSON(){dl(`survey-${S.r.siteId||'out'}.json`,JSON.stringify({submittedAt:new Date().toISOString(),respondent:S.r,equipment:S.items.map(i=>({...i,photos:i.photos.map(p=>({id:p.id,status:p.status,ocrText:p.ocrText,error:p.error}))}))},null,2),'application/json')}
+function dl(name,c,t){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=name;a.click()}
+function exportJSON(){dl(`survey-${S.r.siteId||'out'}.json`,JSON.stringify({appVersion:APP_VER,submittedAt:new Date().toISOString(),respondent:S.r,equipment:S.items.map(i=>({...i,photos:i.photos.map(p=>({id:p.id,status:p.status,ocrText:p.ocrText,error:p.error}))}))},null,2),'application/json')}
 function exportCSV(){
   const e=v=>`"${String(v??'').replace(/"/g,'""')}"`;
   const h=['site_id','address','home_type','year_built','type','location','photo_count','manufacturer','model','serial','year','capacity','fuel','efficiency','voltage','input_output','confidence','notes','combined_ocr'];
@@ -312,7 +299,7 @@ function exportCSV(){
 
 // ── Render helpers ────────────────────────────────────────────────────────────
 function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function pillCls(c){return c==='High'?'pill p-high':c==='Medium'?'pill p-med':c==='Low'?'pill p-low':c==='Needs review'?'pill p-rev':c==='Scanning...'||c==='Processing...'?'pill p-scan':'pill p-none'}
+function pillCls(c){return c==='High'?'pill p-high':c==='Medium'?'pill p-med':c==='Low'?'pill p-low':c==='Needs review'?'pill p-rev':c==='Scanning...'?'pill p-scan':'pill p-none'}
 function stepBar(){
   return`<div class="step-bar">${['Site','Equipment','Review'].map((l,i)=>{
     const n=i+1,a=S.step==n,d=S.step>n;
@@ -320,13 +307,11 @@ function stepBar(){
   }).join('')}</div>`;
 }
 
-// ── Main render ───────────────────────────────────────────────────────────────
+// ── Render ────────────────────────────────────────────────────────────────────
 function render(){
   const root=document.getElementById('root');
   const{step,items,r}=S;
-
-  // Update header progress
-  const proc=items.filter(i=>!['Not processed','Scanning...'].includes(i.data.confidence)).length;
+  const proc=items.filter(i=>i.data.confidence!=='Not processed').length;
   const pct=items.length?Math.round(proc/items.length*100):0;
   const pw=document.getElementById('prog-wrap');
   if(step===2){pw.style.display='block';document.getElementById('prog-lbl').textContent=pct+'%';document.getElementById('prog-fill').style.width=pct+'%'}
@@ -342,49 +327,49 @@ function render(){
       <div><label class="lbl">Notes</label><textarea id="f-notes" rows="3" placeholder="Any context about this home…">${esc(r.notes)}</textarea></div>
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-navy" onclick="step1Next()">Next: Add equipment →</button></div>
     </div></div>`;
+    return;
   }
 
   // ── Step 2 ────────────────────────────────────────────────────────────────
-  else if(step===2){
+  if(step===2){
     const cards=items.map((item,idx)=>{
       const c=item.data.confidence;
-      const anyScanning=item.photos.some(p=>p.status==='scanning');
-      const doneCount=item.photos.filter(p=>p.status==='done').length;
-      const errCount=item.photos.filter(p=>p.status==='error').length;
+      const scanning=item.photos.filter(p=>p.status==='scanning');
+      const done=item.photos.filter(p=>p.status==='done');
+      const errs=item.photos.filter(p=>p.status==='error');
 
-      // Photo strip thumbnails
       const thumbs=item.photos.map(p=>`
         <div class="photo-thumb">
           <img src="${p.preview}" alt="">
           ${p.status==='scanning'?`<div class="scan-overlay"><span class="spin" style="color:#fff;font-size:20px">⟳</span></div>`:''}
-          ${p.status==='done'?`<div class="done-badge">✓</div>`:''}
-          ${p.status==='error'?`<div class="err-badge">!</div>`:''}
-          <button class="del-photo" onclick="removePhoto('${item.id}','${p.id}')" title="Remove">×</button>
+          ${p.status==='done'?`<div class="done-badge">✓ OCR</div>`:''}
+          ${p.status==='error'?`<div class="err-badge" title="${esc(p.error)}">! Err</div>`:''}
+          <button class="del-photo" onclick="removePhoto('${item.id}','${p.id}')">×</button>
         </div>`).join('');
 
-      // Status summary
+      // Status bar — show real error messages
       let statusHtml='';
-      if(anyScanning) statusHtml=`<div class="status-bar s-scan"><span class="spin">⟳</span> Scanning ${item.photos.filter(p=>p.status==='scanning').length} photo(s)…</div>`;
-      else if(doneCount>0&&errCount===0) statusHtml=`<div class="status-bar s-done">✓ ${doneCount} photo(s) scanned — ${item.combinedOcr.trim().split(/\s+/).length} words extracted</div>`;
-      else if(errCount>0) statusHtml=`<div class="status-bar s-err">⚠ ${errCount} photo(s) failed — check text below or retake</div>`;
-      if(S.ocrState==='failed') statusHtml+=`<div class="status-bar s-warn">⚠ OCR unavailable — type nameplate text below then tap Re-parse</div>`;
+      if(scanning.length) statusHtml+=`<div class="sbar s-scan"><span class="spin" style="flex-shrink:0">⟳</span> Scanning ${scanning.length} photo(s)…</div>`;
+      if(!scanning.length&&done.length&&!errs.length) statusHtml+=`<div class="sbar s-done">✓ ${done.length} photo(s) scanned — ${(item.combinedOcr||'').trim().split(/\s+/).filter(Boolean).length} words read</div>`;
+      if(errs.length){
+        const errList=errs.map(p=>`<div class="err-detail">Photo: ${esc(p.error||'unknown error')}</div>`).join('');
+        statusHtml+=`<div class="sbar s-err"><div>⚠ ${errs.length} photo(s) failed — check error below, retake, or type text manually${errList}</div></div>`;
+      }
+      if(S.ocrState==='failed') statusHtml+=`<div class="sbar s-warn">⚠ OCR engine not loaded — type nameplate text below then tap Re-parse</div>`;
 
       return`<div class="card" id="card-${item.id}"><div class="card-head">
-          <div><span style="font-weight:800;font-size:15px">#${idx+1} — ${esc(item.type)}</span>${item.location?`<span style="font-size:13px;color:#94a3b8;margin-left:6px">(${esc(item.location)})</span>`:''}</div>
-          <div style="display:flex;align-items:center;gap:8px"><span class="${pillCls(c)}">${c}</span><button class="rmv" onclick="removeItem('${item.id}')">×</button></div>
-        </div><div class="card-body">
-
+        <div><span style="font-weight:800;font-size:15px">#${idx+1} — ${esc(item.type)}</span>${item.location?`<span style="font-size:13px;color:#94a3b8;margin-left:6px">(${esc(item.location)})</span>`:''}</div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="${pillCls(c)}">${c}</span><button class="rmv" onclick="removeItem('${item.id}')">×</button></div>
+      </div><div class="card-body">
         <div class="g2">
           <div><label class="lbl">Appliance type</label><select onchange="updF('${item.id}','type',this.value)">${ATYPES.map(t=>`<option${t===item.type?' selected':''}>${t}</option>`).join('')}</select></div>
           <div><label class="lbl">Location</label><input placeholder="Basement, attic…" value="${esc(item.location)}" oninput="updF('${item.id}','location',this.value)"></div>
         </div>
 
         <div>
-          <label class="lbl" style="margin-bottom:8px">Photos <span style="font-size:10px;color:#94a3b8;font-weight:500;text-transform:none;letter-spacing:0">(add multiple if needed)</span></label>
-
-          ${item.photos.length>0?`<div class="photo-strip">${thumbs}</div>`:''}
-
-          <div class="photo-actions" style="margin-top:${item.photos.length>0?'8px':'0'}">
+          <label class="lbl" style="margin-bottom:8px">Photos <span style="font-size:10px;color:#94a3b8;font-weight:500;text-transform:none;letter-spacing:0">— add multiple if nameplate spans several labels</span></label>
+          ${item.photos.length?`<div class="photo-strip">${thumbs}</div>`:'<div style="font-size:13px;color:#94a3b8;padding:6px 0">No photos yet — tap a button below to add</div>'}
+          <div class="photo-actions">
             <input type="file" accept="image/*" capture="environment" id="cam-${item.id}" style="display:none" onchange="addPhotos('${item.id}',this.files);this.value=''">
             <input type="file" accept="image/*" multiple id="upl-${item.id}" style="display:none" onchange="addPhotos('${item.id}',this.files);this.value=''">
             <button class="btn btn-blue btn-sm" onclick="document.getElementById('cam-${item.id}').click()">📷 Take photo</button>
@@ -398,9 +383,7 @@ function render(){
             <label class="lbl" style="margin:0">Combined OCR text</label>
             <button class="btn btn-gray btn-sm" onclick="reparse('${item.id}')">⟳ Re-parse</button>
           </div>
-          <textarea class="mono" rows="5"
-            placeholder="OCR text from all photos combined. Edit here then tap Re-parse, or type nameplate text manually."
-            oninput="updCombined('${item.id}',this.value)">${esc(item.combinedOcr)}</textarea>
+          <textarea class="mono" rows="5" placeholder="OCR text from all photos appears here. Edit corrections, then tap Re-parse. Or type nameplate text manually." oninput="updCombined('${item.id}',this.value)">${esc(item.combinedOcr)}</textarea>
         </div>
 
         <div>
@@ -425,75 +408,57 @@ function render(){
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px">
         <span style="font-size:13px;color:#64748b">${items.length} appliance${items.length!==1?'s':''}</span>
         <button class="btn btn-navy" onclick="addItem()">+ Add appliance</button>
-      </div>
-      ${cards}
+      </div>${cards}
       <div style="display:flex;justify-content:space-between;margin-top:4px">
         <button class="btn btn-gray" onclick="go(1)">← Back</button>
         <button class="btn btn-green" onclick="go(3)">Review & Export →</button>
       </div>`;
+    return;
   }
 
   // ── Step 3 ────────────────────────────────────────────────────────────────
-  else if(step===3){
-    const done=items.filter(i=>i.photos.some(p=>p.status==='done')).length;
-    const high=items.filter(i=>i.data.confidence==='High').length;
-    const rev=items.map((item,i)=>`
-      <div class="card" style="margin-bottom:10px">
-        <div class="card-head">
-          <span style="font-weight:800;font-size:14px">#${i+1} ${esc(item.type)}${item.location?' — '+esc(item.location):''}</span>
-          <span class="${pillCls(item.data.confidence)}">${item.data.confidence}</span>
-        </div>
-        <div style="padding:12px 14px">
-          ${item.photos.length>0?`<div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:10px;padding-bottom:4px">${item.photos.filter(p=>p.preview).map(p=>`<img src="${p.preview}" style="height:80px;width:auto;border-radius:7px;flex-shrink:0;border:1px solid #e2e8f0;background:#f8fafc;object-fit:cover">`).join('')}</div>`:''}
-          <div class="rrow">${[['Manufacturer',item.data.manufacturer],['Model',item.data.model],['Serial',item.data.serial],['Year',item.data.year],['Capacity',item.data.capacity],['Fuel',item.data.fuel],['Efficiency',item.data.efficiency],['Voltage',item.data.voltage],['Input/Output',item.data.inputOutput]].map(([k,v])=>`<div class="rcell"><span class="rkey">${k}:</span> <span class="rval${!v?' e':''}">${v||'—'}</span></div>`).join('')}</div>
-          ${item.data.notes?`<div class="nbx">${esc(item.data.notes)}</div>`:''}
-        </div>
-      </div>`).join('');
+  const done=items.filter(i=>i.photos.some(p=>p.status==='done')).length;
+  const high=items.filter(i=>i.data.confidence==='High').length;
+  const rev=items.map((item,i)=>`
+    <div class="card" style="margin-bottom:10px">
+      <div class="card-head"><span style="font-weight:800;font-size:14px">#${i+1} ${esc(item.type)}${item.location?' — '+esc(item.location):''}</span><span class="${pillCls(item.data.confidence)}">${item.data.confidence}</span></div>
+      <div style="padding:12px 14px">
+        ${item.photos.filter(p=>p.preview).length?`<div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:10px;padding-bottom:2px">${item.photos.filter(p=>p.preview).map(p=>`<img src="${p.preview}" style="height:80px;width:auto;border-radius:7px;flex-shrink:0;border:1px solid #e2e8f0;object-fit:cover">`).join('')}</div>`:''}
+        <div class="rrow">${[['Manufacturer',item.data.manufacturer],['Model',item.data.model],['Serial',item.data.serial],['Year',item.data.year],['Capacity',item.data.capacity],['Fuel',item.data.fuel],['Efficiency',item.data.efficiency],['Voltage',item.data.voltage],['Input/Output',item.data.inputOutput]].map(([k,v])=>`<div class="rcell"><span class="rkey">${k}:</span> <span class="rval${!v?' e':''}">${v||'—'}</span></div>`).join('')}</div>
+        ${item.data.notes?`<div class="nbx">${esc(item.data.notes)}</div>`:''}
+      </div>
+    </div>`).join('');
 
-    root.innerHTML=stepBar()+`
-      <div class="card" style="padding:16px;margin-bottom:14px">
-        <div style="font-weight:800;font-size:15px;margin-bottom:12px">Summary</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px">
-          <div class="stat"><div class="stat-l">Total</div><div class="stat-v">${items.length}</div></div>
-          <div class="stat"><div class="stat-l">Processed</div><div class="stat-v">${done}</div></div>
-          <div class="stat"><div class="stat-l">High conf.</div><div class="stat-v">${high}</div></div>
-        </div>
-        <div style="font-size:13px;color:#64748b"><b style="color:#0f172a">Site:</b> ${esc(r.address)||'—'} · <b style="color:#0f172a">ID:</b> ${esc(r.siteId)||'—'}</div>
+  root.innerHTML=stepBar()+`
+    <div class="card" style="padding:16px;margin-bottom:14px">
+      <div style="font-weight:800;font-size:15px;margin-bottom:12px">Summary</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px">
+        <div class="stat"><div class="stat-l">Total</div><div class="stat-v">${items.length}</div></div>
+        <div class="stat"><div class="stat-l">Processed</div><div class="stat-v">${done}</div></div>
+        <div class="stat"><div class="stat-l">High conf.</div><div class="stat-v">${high}</div></div>
       </div>
-      ${rev}
-      <div class="card" style="padding:16px;margin-bottom:14px">
-        <div style="font-weight:800;font-size:15px;margin-bottom:10px">Export</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
-          <button class="btn btn-navy" onclick="exportJSON()">⬇ JSON</button>
-          <button class="btn btn-green" onclick="exportCSV()">⬇ CSV</button>
-        </div>
-        <div style="font-size:12px;color:#94a3b8">All data stays on-device. Nothing sent to any server.</div>
+      <div style="font-size:13px;color:#64748b"><b style="color:#0f172a">Site:</b> ${esc(r.address)||'—'} · <b style="color:#0f172a">ID:</b> ${esc(r.siteId)||'—'}</div>
+    </div>${rev}
+    <div class="card" style="padding:16px;margin-bottom:14px">
+      <div style="font-weight:800;font-size:15px;margin-bottom:10px">Export</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn btn-navy" onclick="exportJSON()">⬇ JSON</button>
+        <button class="btn btn-green" onclick="exportCSV()">⬇ CSV</button>
       </div>
-      <button class="btn btn-gray" onclick="go(2)">← Back to edit</button>`;
-  }
+      <div style="font-size:12px;color:#94a3b8">All data stays on-device. Nothing sent to any server.</div>
+    </div>
+    <button class="btn btn-gray" onclick="go(2)">← Back to edit</button>`;
 }
 
-// ── Handlers ──────────────────────────────────────────────────────────────────
+// ── Event handlers ────────────────────────────────────────────────────────────
 function go(n){S.step=n;render();window.scrollTo(0,0)}
-function step1Next(){
-  ['siteId','contactName','address','email','homeType','yearBuilt','notes'].forEach(k=>{
-    const el=document.getElementById('f-'+k); if(el)S.r[k]=el.value;
-  });
-  go(2);
-}
+function step1Next(){['siteId','contactName','address','email','homeType','yearBuilt','notes'].forEach(k=>{const el=document.getElementById('f-'+k);if(el)S.r[k]=el.value});go(2)}
 function addItem(){S.items.push(mkItem());render()}
 function removeItem(id){if(S.items.length>1)S.items=S.items.filter(i=>i.id!==id);render()}
 function updF(id,k,v){updItem(id,{[k]:v})}
 function updD(id,k,v){const it=getItem(id);if(it)updItem(id,{data:{...it.data,[k]:v}})}
-function updCombined(id,v){
-  const it=getItem(id); if(!it) return;
-  updItem(id,{combinedOcr:v});
-}
-function reparse(id){
-  const it=getItem(id); if(!it) return;
-  updItem(id,{data:parseOCR(it.combinedOcr,it.type)});
-  render();
-}
+function updCombined(id,v){const it=getItem(id);if(it)updItem(id,{combinedOcr:v})}
+function reparse(id){const it=getItem(id);if(!it)return;updItem(id,{data:parseOCR(it.combinedOcr,it.type)});render()}
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 render();
@@ -503,7 +468,7 @@ window.addEventListener('tesseract-ready',initOCR);
 <script
   src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.4/dist/tesseract.min.js"
   onload="window.dispatchEvent(new Event('tesseract-ready'))"
-  onerror="(function(){S.ocrState='failed';document.getElementById('ocr-txt').className='ocrs failed';document.getElementById('ocr-txt').textContent='⚠ Could not load OCR library'})()">
+  onerror="(function(){S.ocrState='failed';document.getElementById('ocr-txt').className='ocrs failed';document.getElementById('ocr-txt').innerHTML='⚠ Could not load OCR library'})()">
 </script>
 </body>
 </html>
