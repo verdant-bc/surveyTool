@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Verdant — Nameplate Survey v1.10</title>
+<title>Verdant — Nameplate Survey v1.11</title>
 <style>
 :root{
   --dk:#0E321C;--md:#1B5E38;--ac:#97B23E;--lt:#C5CD9F;
@@ -116,7 +116,7 @@ textarea{resize:vertical;line-height:1.55}
   <div class="hi">
     <div>
       <div class="hbrand">Verdant Energy Consulting</div>
-      <div class="htitle">Nameplate Survey <span class="hver">v1.10</span></div>
+      <div class="htitle">Nameplate Survey <span class="hver">v1.11</span></div>
     </div>
     <div style="text-align:right">
       <div id="ocr-txt" class="ocrs loading"><span class="spin">⟳</span> Loading OCR…</div>
@@ -131,7 +131,7 @@ textarea{resize:vertical;line-height:1.55}
 <div id="main"><div id="root"></div></div>
 
 <script>
-const APP_VER='v1.10';
+const APP_VER='v1.11';
 const HTYPES=['Single-family detached','Single-family attached','Manufactured home','Apartment / multifamily','Commercial','Other'];
 const ATYPES=['Water Heater','Furnace / Boiler','Heat Pump','Air Conditioner','Refrigerator','Freezer','Dishwasher','Clothes Washer','Clothes Dryer','Range / Oven','Electrical Panel','Other'];
 
@@ -159,20 +159,63 @@ function errMsg(e){if(!e)return'Unknown error';if(typeof e==='string')return e;i
 // When loaded from unpkg, the library auto-resolves worker, core, and language
 // data URLs relative to itself. Overriding any of them risks version mismatch
 // or endsWith() undefined errors. Only logger is overridden.
-const T2_OPTS = {
-  workerPath: "https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/worker.min.js",
-  corePath: "https://cdn.jsdelivr.net/npm/tesseract.js-core@2.2.0/tesseract-core.wasm.js",
-  langPath: "https://tessdata.projectnaptha.com/4.0.0",
-  gzip: true,
-  logger: () => {}
-};
+let OCR_WORKER = null;
 
-function initOCR(){
-  if(typeof Tesseract==='undefined'){
-    S.ocrState='failed';setOcrUI('failed','⚠ OCR library not loaded');return;
+async function initOCR(){
+  try{
+    if(typeof Tesseract === 'undefined') throw new Error('Tesseract not loaded');
+
+    OCR_WORKER = Tesseract.createWorker({
+      logger: () => {},
+      workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/worker.min.js',
+      corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@2.2.0/tesseract-core.wasm.js',
+      langPath: 'https://tessdata.projectnaptha.com/4.0.0'
+    });
+
+    await OCR_WORKER.load();
+    await OCR_WORKER.loadLanguage('eng');
+    await OCR_WORKER.initialize('eng');
+
+    S.ocrState='ready';
+    setOcrUI('ready','✓ OCR ready');
+  }catch(e){
+    S.ocrState='failed';
+    setOcrUI('failed','⚠ OCR failed to initialize');
+    console.error(e);
   }
-  S.ocrState='ready';
-  setOcrUI('ready','✓ OCR ready (first scan ~5s download)');
+}
+
+function setOcrUI(cls,txt){
+  const el=document.getElementById('ocr-txt');
+  el.className='ocrs '+cls;
+  el.innerHTML=txt;
+}
+
+async function _doOcr(itemId,photoId){
+  const item=getItem(itemId);if(!item)return;
+  const photo=item.photos.find(p=>p.id===photoId);
+  if(!photo||photo.status==='done')return;
+
+  photo.status='scanning';
+  photo.error='';
+  render();
+
+  try{
+    if(!OCR_WORKER) throw new Error('OCR worker not ready — reload the page');
+    const src=await prepareForOCR(photo.file);
+    const result=await OCR_WORKER.recognize(src);
+    const text=result?.data?.text || '';
+
+    photo.status='done';
+    photo.ocrText=text.trim();
+  }catch(err){
+    photo.status='error';
+    photo.error=errMsg(err);
+    console.error('OCR failed:',err);
+  }
+
+  _rebuildCombined(itemId);
+  render();
 }
 function setOcrUI(cls,txt){const el=document.getElementById('ocr-txt');el.className='ocrs '+cls;el.innerHTML=txt}
 
