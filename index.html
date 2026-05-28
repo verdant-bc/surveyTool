@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Verdant — Nameplate Survey v1.9</title>
+<title>Verdant — Nameplate Survey v1.10</title>
 <style>
 :root{
   --dk:#0E321C;--md:#1B5E38;--ac:#97B23E;--lt:#C5CD9F;
@@ -218,7 +218,7 @@ async function _doOcr(itemId,photoId){
     if(S.ocrState!=='ready')throw new Error('OCR engine not ready — reload the page');
     // Resize first — prevents WASM abort() on large mobile photos
     const src=await prepareForOCR(photo.file);
-    const result=await Tesseract.recognize(src,'eng',T2_OPTS);
+    const result=await Tesseract.recognize(src,'eng');
     const text=result?.data?.text??'';
     photo.status='done';photo.ocrText=text.trim();
   }catch(err){
