@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Nameplate Survey</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -14,576 +13,338 @@ input,select,textarea,button{font-family:inherit;font-size:16px}
 input,select,textarea{width:100%;padding:11px 13px;border:1.5px solid #cbd5e1;border-radius:9px;background:#fff;color:#0f172a;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
 input:focus,select:focus,textarea:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
 textarea{resize:vertical;line-height:1.5}
-label.lbl{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#64748b;margin-bottom:5px}
+.lbl{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#64748b;margin-bottom:5px}
 .card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;margin-bottom:14px}
 .card-head{background:#f8fafc;padding:13px 16px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.card-body{padding:16px}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 18px;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .1s;white-space:nowrap;-webkit-appearance:none}
+.card-body{padding:16px;display:grid;gap:13px}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 18px;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .1s;white-space:nowrap}
 .btn:active{opacity:.82;transform:scale(.98)}
-.btn-primary{background:#1e3a5f;color:#fff}
+.btn-navy{background:#1e3a5f;color:#fff}
 .btn-green{background:#15803d;color:#fff}
 .btn-gray{background:#64748b;color:#fff}
 .btn-sm{padding:7px 12px;font-size:12px}
-.btn-icon{padding:8px;border-radius:8px}
 .pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:700}
-.pill-high{background:#dcfce7;color:#15803d}
-.pill-medium{background:#fef3c7;color:#b45309}
-.pill-low{background:#fee2e2;color:#b91c1c}
-.pill-review{background:#f3e8ff;color:#7c3aed}
-.pill-scanning{background:#dbeafe;color:#1d4ed8}
-.pill-none{background:#f1f5f9;color:#64748b}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.step-bar{display:flex;align-items:center;margin-bottom:20px}
-.step-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
-.step-line{flex:1;height:2px}
-.step-lbl{font-size:11px;font-weight:700;margin-top:4px;text-align:center}
+.p-high{background:#dcfce7;color:#15803d}
+.p-med{background:#fef3c7;color:#b45309}
+.p-low{background:#fee2e2;color:#b91c1c}
+.p-rev{background:#f3e8ff;color:#7c3aed}
+.p-scan{background:#dbeafe;color:#1d4ed8}
+.p-none{background:#f1f5f9;color:#64748b}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .photo-zone{border:1.5px dashed #cbd5e1;border-radius:10px;overflow:hidden;background:#f8fafc}
-.photo-btn{width:100%;padding:32px 16px;background:none;border:none;cursor:pointer;text-align:center}
-.photo-icon{font-size:44px;display:block;margin-bottom:10px}
-.photo-title{font-size:15px;font-weight:700;color:#2563eb;display:block;margin-bottom:4px}
-.photo-sub{font-size:13px;color:#94a3b8;display:block}
+.photo-btn{width:100%;padding:30px 16px;background:none;border:none;cursor:pointer;text-align:center}
 .photo-preview{width:100%;max-height:260px;object-fit:contain;background:#f1f5f9;display:block}
-.photo-retake{position:absolute;bottom:8px;right:8px}
 .status-bar{padding:10px 14px;font-size:13px;display:flex;align-items:center;gap:8px;border-top:1px solid}
-.status-scanning{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
-.status-done{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
-.status-error{background:#fef2f2;border-color:#fecaca;color:#b91c1c}
-.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.mono{font-family:'SFMono-Regular',Menlo,Monaco,'Courier New',monospace;font-size:13px}
-.section-label{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:10px}
-.review-row{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px;font-size:13px}
-.review-cell{padding:3px 0;border-bottom:1px solid #f1f5f9}
-.review-key{color:#94a3b8}
-.review-val{font-weight:700;font-family:monospace;color:#0f172a}
-.review-val.empty{color:#e2e8f0}
-.summary-stat{background:#f8fafc;border:1px solid #e2e8f0;border-radius:9px;padding:12px;text-align:left}
-.stat-lbl{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#94a3b8}
-.stat-val{font-size:26px;font-weight:900;color:#0f172a;line-height:1.1;margin-top:2px}
-.ocr-banner{padding:10px 14px;background:#fef9ec;border-top:1px solid #fde68a;font-size:12px;color:#92400e;display:flex;align-items:flex-start;gap:6px}
+.s-scan{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+.s-done{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
+.s-err{background:#fef2f2;border-color:#fecaca;color:#b91c1c}
+.s-warn{background:#fffbeb;border-color:#fde68a;color:#92400e}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mono{font-family:'SFMono-Regular',Menlo,'Courier New',monospace;font-size:13px}
+.sec{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:10px}
+.rrow{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px;font-size:13px}
+.rcell{padding:3px 0;border-bottom:1px solid #f1f5f9}
+.rkey{color:#94a3b8}
+.rval{font-weight:700;font-family:monospace}
+.rval.e{color:#e2e8f0}
+.stat{background:#f8fafc;border:1px solid #e2e8f0;border-radius:9px;padding:12px}
+.stat-l{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#94a3b8}
+.stat-v{font-size:26px;font-weight:900;color:#0f172a;line-height:1.1;margin-top:2px}
+.step-bar{display:flex;align-items:center;margin-bottom:20px}
+.sdot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.sline{flex:1;height:2px}
+.slbl{font-size:11px;font-weight:700;margin-top:4px;text-align:center}
+#hdr{background:#1e3a5f;color:#fff;padding:13px 15px;position:sticky;top:0;z-index:100}
+.hi{display:flex;align-items:center;justify-content:space-between;max-width:640px;margin:0 auto}
+.ht{font-size:17px;font-weight:800}
+.hs{font-size:11px;color:#93c5fd;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
+#main{max-width:640px;margin:0 auto;padding:15px 13px 50px}
+.ocrs{font-size:11px;margin-top:3px}
+.ocrs.loading{color:#fde68a}
+.ocrs.ready{color:#4ade80}
+.ocrs.failed{color:#fca5a5}
+.rmv{background:none;border:none;cursor:pointer;color:#ef4444;font-size:22px;line-height:1;padding:2px 6px;border-radius:6px}
+.rmv:hover{background:#fee2e2}
+.pbar{height:3px;background:#e2e8f0;border-radius:2px;margin-top:4px}
+.pfill{height:100%;border-radius:2px;background:#22c55e;transition:width .4s}
+.nbx{margin-top:10px;background:#f8fafc;border-radius:8px;padding:8px 12px;font-size:12px;color:#64748b;line-height:1.5}
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 .spin{display:inline-block;animation:spin 1s linear infinite}
-.progress-bar{height:3px;background:#e2e8f0;border-radius:2px}
-.progress-fill{height:100%;border-radius:2px;background:#22c55e;transition:width .4s}
-#header{background:#1e3a5f;color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100}
-.header-inner{display:flex;align-items:center;justify-content:space-between;max-width:640px;margin:0 auto}
-.header-title{font-size:17px;font-weight:800}
-.header-sub{font-size:11px;color:#93c5fd;margin-bottom:2px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
-.ocr-status{font-size:11px;margin-top:4px}
-.ocr-ready{color:#4ade80}
-.ocr-loading{color:#fde68a}
-.ocr-failed{color:#fca5a5}
-#main{max-width:640px;margin:0 auto;padding:16px 13px 40px}
-.remove-btn{background:none;border:none;cursor:pointer;color:#ef4444;font-size:22px;line-height:1;padding:2px 6px;border-radius:6px}
-.remove-btn:hover{background:#fee2e2}
-.notes-box{margin-top:10px;background:#f8fafc;border-radius:8px;padding:8px 12px;font-size:12px;color:#64748b;line-height:1.5}
-.deploy-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px;font-size:13px;color:#78350f;line-height:1.7;margin-bottom:14px}
-.deploy-box b{color:#92400e}
-.deploy-box code{background:#fef3c7;padding:1px 5px;border-radius:4px;font-family:monospace;font-size:12px}
 </style>
 </head>
 <body>
-
-<div id="header">
-  <div class="header-inner">
+<div id="hdr">
+  <div class="hi">
     <div>
-      <div class="header-sub">🏠 Home Equipment Survey</div>
-      <div class="header-title">Nameplate Data Collection</div>
+      <div class="hs">🏠 Home Equipment Survey</div>
+      <div class="ht">Nameplate Data Collection</div>
     </div>
     <div style="text-align:right">
-      <div id="ocr-status-text" class="ocr-status ocr-loading">⟳ Loading OCR engine…</div>
-      <div id="progress-wrap" style="display:none;margin-top:6px">
-        <div style="font-size:11px;color:#93c5fd" id="progress-label">0% complete</div>
-        <div class="progress-bar" style="width:72px;margin-top:3px">
-          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-        </div>
+      <div id="ocr-txt" class="ocrs loading"><span class="spin">⟳</span> Loading OCR…</div>
+      <div id="prog-wrap" style="display:none">
+        <div style="font-size:11px;color:#93c5fd" id="prog-lbl">0%</div>
+        <div class="pbar" style="width:72px"><div class="pfill" id="prog-fill" style="width:0%"></div></div>
       </div>
     </div>
   </div>
 </div>
+<div id="main"><div id="root"></div></div>
 
-<div id="main">
-  <div id="app-root"></div>
-</div>
-
-<!-- Tesseract.js -->
-<script src="https://unpkg.com/tesseract.js@4/dist/tesseract.min.js"></script>
 <script>
-// ─── State ────────────────────────────────────────────────────────────────────
-const state = {
-  step: 1,
-  ocrState: 'loading', // loading | ready | failed
-  respondent: { siteId:'', address:'', contactName:'', email:'',
-                homeType:'Single-family detached', yearBuilt:'', notes:'' },
-  items: [newItem()],
+// ── State ────────────────────────────────────────────────────────────────────
+const S = {
+  step:1, ocrState:'loading',
+  r:{siteId:'',address:'',contactName:'',email:'',homeType:'Single-family detached',yearBuilt:'',notes:''},
+  items:[mkItem()],
 };
+const HTYPES=['Single-family detached','Single-family attached','Manufactured home','Apartment / multifamily','Commercial','Other'];
+const ATYPES=['Water Heater','Furnace / Boiler','Heat Pump','Air Conditioner','Refrigerator','Freezer','Dishwasher','Clothes Washer','Clothes Dryer','Range / Oven','Electrical Panel','Other'];
+function uid(){return Math.random().toString(36).slice(2,10)}
+function mkItem(){return{id:uid(),type:'Water Heater',location:'',photoPreview:null,photoFile:null,ocrText:'',status:'idle',error:'',data:{manufacturer:'',model:'',serial:'',year:'',capacity:'',fuel:'',efficiency:'',voltage:'',inputOutput:'',notes:'',confidence:'Not processed'}}}
+function getItem(id){return S.items.find(i=>i.id===id)}
+function updItem(id,p){const x=S.items.findIndex(i=>i.id===id);if(x>=0)S.items[x]={...S.items[x],...p}}
 
-const HOME_TYPES = ['Single-family detached','Single-family attached','Manufactured home',
-  'Apartment / multifamily','Commercial','Other'];
-const APPLIANCE_TYPES = ['Water Heater','Furnace / Boiler','Heat Pump','Air Conditioner',
-  'Refrigerator','Freezer','Dishwasher','Clothes Washer','Clothes Dryer',
-  'Range / Oven','Electrical Panel','Other'];
+// ── Tesseract v4 — correct async API ─────────────────────────────────────────
+let OCR=null;
 
-function uid() { return Math.random().toString(36).slice(2,10); }
+async function initOCR(){
+  try{
+    // Detect SIMD support to pick the right WASM core
+    let simd=false;
+    try{
+      simd=WebAssembly.validate(new Uint8Array([
+        0,97,115,109,1,0,0,0,1,5,1,96,0,1,123,3,2,1,0,10,10,1,8,0,65,0,253,15,253,98,11
+      ]));
+    }catch(e){}
 
-function newItem() {
-  return { id:uid(), type:'Water Heater', location:'', photoPreview:null, photoFile:null,
-    ocrText:'', status:'idle', error:'',
-    data:{ manufacturer:'',model:'',serial:'',year:'',capacity:'',fuel:'',
-           efficiency:'',voltage:'',inputOutput:'',notes:'',confidence:'Not processed' } };
-}
+    const base='https://cdn.jsdelivr.net/npm/tesseract.js@4.1.4/dist/';
+    const coreBase='https://cdn.jsdelivr.net/npm/tesseract.js-core@3.0.2/';
+    const corePath=simd ? coreBase+'tesseract-core-simd.wasm.js' : coreBase+'tesseract-core.wasm.js';
 
-function getItem(id) { return state.items.find(i=>i.id===id); }
-
-function updateItem(id, patch) {
-  const idx = state.items.findIndex(i=>i.id===id);
-  if (idx>=0) state.items[idx] = { ...state.items[idx], ...patch };
-}
-
-// ─── Tesseract init ───────────────────────────────────────────────────────────
-let ocrWorker = null;
-
-async function initOCR() {
-  try {
-    // Try fetching worker as blob to work around stricter sandbox environments
-    let workerPath = 'https://unpkg.com/tesseract.js@4/dist/worker.min.js';
-    try {
-      const resp = await fetch('https://unpkg.com/tesseract.js@4/dist/worker.min.js');
-      if (resp.ok) {
-        const txt = await resp.text();
-        const blob = new Blob([txt], { type:'application/javascript' });
-        workerPath = URL.createObjectURL(blob);
-      }
-    } catch(_) { /* use direct URL fallback */ }
-
-    ocrWorker = Tesseract.createWorker({
-      workerPath,
-      langPath: 'https://tessdata.projectnaptha.com/4.0.0',
-      corePath: 'https://unpkg.com/tesseract.js-core@3/tesseract-core-simd.wasm.js',
-      logger: () => {},
+    // createWorker in v4 is ASYNC — no manual load/loadLanguage/initialize needed
+    OCR = await Tesseract.createWorker('eng', 1, {
+      workerPath: base+'worker.min.js',
+      langPath:   'https://tessdata.projectnaptha.com/4.0.0',
+      corePath,
+      logger: ()=>{},
     });
 
-    await ocrWorker.load();
-    await ocrWorker.loadLanguage('eng');
-    await ocrWorker.initialize('eng');
-    await ocrWorker.setParameters({ tessedit_pageseg_mode: Tesseract.PSM.AUTO });
-
-    state.ocrState = 'ready';
-    document.getElementById('ocr-status-text').textContent = '✓ OCR engine ready';
-    document.getElementById('ocr-status-text').className = 'ocr-status ocr-ready';
-  } catch(err) {
-    console.error('Tesseract init failed:', err);
-    state.ocrState = 'failed';
-    document.getElementById('ocr-status-text').textContent = '⚠ OCR unavailable — manual mode';
-    document.getElementById('ocr-status-text').className = 'ocr-status ocr-failed';
+    S.ocrState='ready';
+    setOcrUI('ready','✓ OCR ready ('+(simd?'SIMD':'compat')+')');
+  }catch(err){
+    console.error('Tesseract init error:',err);
+    S.ocrState='failed';
+    setOcrUI('failed','⚠ OCR unavailable — manual mode');
   }
 }
 
-// ─── Image preprocessing ──────────────────────────────────────────────────────
-function preprocessImage(file) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
+function setOcrUI(cls,txt){
+  const el=document.getElementById('ocr-txt');
+  el.className='ocrs '+cls;
+  el.innerHTML=txt;
+}
+
+// ── Image preprocess ─────────────────────────────────────────────────────────
+function preprocess(file){
+  return new Promise((res,rej)=>{
+    const img=new Image(), url=URL.createObjectURL(file);
+    img.onload=()=>{
       URL.revokeObjectURL(url);
-      const MAX = 2400;
-      let w = img.naturalWidth, h = img.naturalHeight;
-      if (w>MAX||h>MAX) { const r=Math.min(MAX/w,MAX/h); w=w*r|0; h=h*r|0; }
-      const cv = document.createElement('canvas');
-      cv.width=w; cv.height=h;
-      const ctx = cv.getContext('2d');
-      ctx.drawImage(img, 0, 0, w, h);
-      const id = ctx.getImageData(0,0,w,h);
-      const d = id.data;
-      const cf = (259*(1.7*255+255))/(255*(259-1.7*255));
-      for (let i=0;i<d.length;i+=4) {
-        const g = 0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];
-        const e = Math.min(255,Math.max(0,cf*(g-128)+128));
+      const MAX=2400; let w=img.naturalWidth,h=img.naturalHeight;
+      if(w>MAX||h>MAX){const r=Math.min(MAX/w,MAX/h);w=w*r|0;h=h*r|0}
+      const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+      const ctx=cv.getContext('2d'); ctx.drawImage(img,0,0,w,h);
+      const id=ctx.getImageData(0,0,w,h); const d=id.data;
+      const cf=(259*(1.65*255+255))/(255*(259-1.65*255));
+      for(let i=0;i<d.length;i+=4){
+        const g=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];
+        const e=Math.min(255,Math.max(0,cf*(g-128)+128));
         d[i]=d[i+1]=d[i+2]=e;
       }
-      ctx.putImageData(id, 0, 0);
-      resolve(cv);
+      ctx.putImageData(id,0,0); res(cv);
     };
-    img.onerror = reject;
-    img.src = url;
+    img.onerror=rej; img.src=url;
   });
 }
 
-// ─── OCR text → structured data ───────────────────────────────────────────────
-function wordsAfter(text, labels, n=2) {
-  const parts = String(text||'').replace(/[:#]/g,' ').split(/\s+/).filter(Boolean);
-  const up = parts.map(p=>p.toUpperCase());
-  for (const label of labels) {
-    const lp = label.toUpperCase().split(' ');
-    for (let i=0;i<=up.length-lp.length;i++) {
-      if (up.slice(i,i+lp.length).join(' ')===lp.join(' '))
-        return parts.slice(i+lp.length,i+lp.length+n).join(' ');
-    }
-  }
+// ── OCR text parser ──────────────────────────────────────────────────────────
+function wAfter(t,lbls,n=2){
+  const pts=String(t||'').replace(/[:#]/g,' ').split(/\s+/).filter(Boolean);
+  const up=pts.map(p=>p.toUpperCase());
+  for(const l of lbls){const lp=l.toUpperCase().split(' ');for(let i=0;i<=up.length-lp.length;i++){if(up.slice(i,i+lp.length).join(' ')===lp.join(' '))return pts.slice(i+lp.length,i+lp.length+n).join(' ')}}
   return '';
 }
-
-function findUnit(text, units) {
-  const parts = String(text||'').replace(/[:#]/g,' ').split(/\s+/).filter(Boolean);
-  for (let i=1;i<parts.length;i++) {
-    if (units.includes(parts[i].toUpperCase()))
-      return `${parts[i-1]} ${parts[i]}`.toUpperCase();
-  }
+function fUnit(t,units){
+  const pts=String(t||'').replace(/[:#]/g,' ').split(/\s+/).filter(Boolean);
+  for(let i=1;i<pts.length;i++){if(units.includes(pts[i].toUpperCase()))return`${pts[i-1]} ${pts[i]}`.toUpperCase()}
   return '';
 }
-
-function inferYear(serial, text) {
-  const s = `${serial} ${text}`;
-  for (let y=1990;y<=2035;y++) if (s.includes(String(y))) return String(y);
-  return '';
+function iYear(s,t){const c=`${s} ${t}`;for(let y=1990;y<=2035;y++)if(c.includes(String(y)))return String(y);return ''}
+function parseOCR(text,app){
+  const raw=String(text||'').replace(/\r?\n/g,' ').trim(), up=raw.toUpperCase();
+  const manufacturer=wAfter(raw,['MANUFACTURER','MFR','MFG','BRAND','MAKE'],1);
+  const model=wAfter(raw,['MODEL','MODEL NO','MODEL NUMBER','MOD'],1);
+  const serial=wAfter(raw,['SERIAL','SERIAL NO','SERIAL NUMBER','S N','SER NO'],1);
+  const year=wAfter(raw,['MFG DATE','MANUFACTURED','DATE'],1)||iYear(serial,raw);
+  const capacity=fUnit(raw,['GAL','GALLON','GALLONS','TON','TONS','CFM','KW','KWH','BTUH','BTU']);
+  const voltage=fUnit(raw,['V','VOLTS','VOLT']);
+  const efficiency=up.includes('UEF')?`UEF ${wAfter(raw,['UEF'],1)}`:up.includes('AFUE')?`AFUE ${wAfter(raw,['AFUE'],1)}`:up.includes('SEER2')?`SEER2 ${wAfter(raw,['SEER2'],1)}`:up.includes('SEER')?`SEER ${wAfter(raw,['SEER'],1)}`:up.includes('ENERGY FACTOR')?`EF ${wAfter(raw,['ENERGY FACTOR'],1)}`:up.includes('HSPF')?`HSPF ${wAfter(raw,['HSPF'],1)}`:'';
+  const fuel=up.includes('NATURAL GAS')?'Natural gas':up.includes('PROPANE')||up.includes(' LP ')?'Propane':up.includes('ELECTRIC')?'Electric':up.includes('OIL')?'Fuel oil':'';
+  const inputOutput=up.includes('INPUT')?`INPUT ${wAfter(raw,['INPUT'],2)}`.trim():up.includes('OUTPUT')?`OUTPUT ${wAfter(raw,['OUTPUT'],2)}`.trim():'';
+  const hits=[manufacturer,model,serial,year,capacity,fuel,efficiency,voltage,inputOutput].filter(Boolean).length;
+  const confidence=hits>=6?'High':hits>=4?'Medium':hits>=1?'Low':'Needs review';
+  const notes=app==='Water Heater'&&!capacity?'Verify gallons/BTU/kW from photo.':'';
+  return{manufacturer,model,serial,year,capacity,fuel,efficiency,voltage,inputOutput,notes,confidence};
 }
 
-function parseOCR(text, appType) {
-  const raw = String(text||'').replace(/\r?\n/g,' ').trim();
-  const up = raw.toUpperCase();
-  const manufacturer = wordsAfter(raw,['MANUFACTURER','MFR','MFG','BRAND','MAKE'],1);
-  const model        = wordsAfter(raw,['MODEL','MODEL NO','MODEL NUMBER','MOD'],1);
-  const serial       = wordsAfter(raw,['SERIAL','SERIAL NO','SERIAL NUMBER','S N','SER NO'],1);
-  const year         = wordsAfter(raw,['MFG DATE','MANUFACTURED','DATE'],1)||inferYear(serial,raw);
-  const capacity     = findUnit(raw,['GAL','GALLON','GALLONS','TON','TONS','CFM','KW','KWH','BTUH','BTU']);
-  const voltage      = findUnit(raw,['V','VOLTS','VOLT']);
-  const efficiency   = up.includes('UEF')           ? `UEF ${wordsAfter(raw,['UEF'],1)}`
-                     : up.includes('AFUE')          ? `AFUE ${wordsAfter(raw,['AFUE'],1)}`
-                     : up.includes('SEER2')         ? `SEER2 ${wordsAfter(raw,['SEER2'],1)}`
-                     : up.includes('SEER')          ? `SEER ${wordsAfter(raw,['SEER'],1)}`
-                     : up.includes('ENERGY FACTOR') ? `EF ${wordsAfter(raw,['ENERGY FACTOR'],1)}`
-                     : up.includes('HSPF')          ? `HSPF ${wordsAfter(raw,['HSPF'],1)}`
-                     : '';
-  const fuel         = up.includes('NATURAL GAS')   ? 'Natural gas'
-                     : up.includes('PROPANE')||up.includes(' LP ') ? 'Propane'
-                     : up.includes('ELECTRIC')       ? 'Electric'
-                     : up.includes('OIL')            ? 'Fuel oil' : '';
-  const inputOutput  = up.includes('INPUT')  ? `INPUT ${wordsAfter(raw,['INPUT'],2)}`.trim()
-                     : up.includes('OUTPUT') ? `OUTPUT ${wordsAfter(raw,['OUTPUT'],2)}`.trim() : '';
-  const hits = [manufacturer,model,serial,year,capacity,fuel,efficiency,voltage,inputOutput].filter(Boolean).length;
-  const confidence = hits>=6?'High':hits>=4?'Medium':hits>=1?'Low':'Needs review';
-  const notes = appType==='Water Heater'&&!capacity ? 'Verify gallons/BTU/kW from photo.' : '';
-  return {manufacturer,model,serial,year,capacity,fuel,efficiency,voltage,inputOutput,notes,confidence};
+// ── Export ───────────────────────────────────────────────────────────────────
+function dl(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click()}
+function exportJSON(){dl(`survey-${S.r.siteId||'out'}.json`,JSON.stringify({submittedAt:new Date().toISOString(),respondent:S.r,equipment:S.items.map(({photoFile,photoPreview,...r})=>r)},null,2),'application/json')}
+function exportCSV(){
+  const e=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+  const h=['site_id','address','home_type','year_built','type','location','manufacturer','model','serial','year','capacity','fuel','efficiency','voltage','input_output','confidence','notes','ocr_text'];
+  const rows=S.items.map(i=>[S.r.siteId,S.r.address,S.r.homeType,S.r.yearBuilt,i.type,i.location,i.data.manufacturer,i.data.model,i.data.serial,i.data.year,i.data.capacity,i.data.fuel,i.data.efficiency,i.data.voltage,i.data.inputOutput,i.data.confidence,i.data.notes,i.ocrText].map(e).join(','));
+  dl(`survey-${S.r.siteId||'out'}.csv`,[h.join(','),...rows].join('\n'),'text/csv');
 }
 
-// ─── Export ───────────────────────────────────────────────────────────────────
-function exportJSON() {
-  const payload = { submittedAt:new Date().toISOString(), respondent:state.respondent,
-    equipment:state.items.map(({photoFile,photoPreview,...r})=>r) };
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));
-  a.download=`nameplate-survey-${state.respondent.siteId||'response'}.json`;
-  a.click();
+// ── Render helpers ───────────────────────────────────────────────────────────
+function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function pillCls(c){return c==='High'?'pill p-high':c==='Medium'?'pill p-med':c==='Low'?'pill p-low':c==='Needs review'?'pill p-rev':c==='Scanning...'?'pill p-scan':'pill p-none'}
+function stepBar(){
+  return`<div class="step-bar">${['Site','Equip','Review'].map((l,i)=>{
+    const n=i+1,a=S.step==n,d=S.step>n;
+    return`<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:0 0 auto"><div class="sdot" style="background:${d?'#15803d':a?'#2563eb':'#e2e8f0'};color:${d||a?'#fff':'#94a3b8'}">${d?'✓':n}</div><div class="slbl" style="color:${a?'#2563eb':d?'#15803d':'#94a3b8'}">${l}</div></div>${i<2?`<div class="sline" style="background:${d?'#15803d':'#e2e8f0'};margin-bottom:20px"></div>`:''}`
+  }).join('')}</div>`;
 }
 
-function exportCSV() {
-  const esc = v=>`"${String(v??'').replace(/"/g,'""')}"`;
-  const hdrs=['site_id','address','home_type','year_built','type','location',
-    'manufacturer','model','serial','year','capacity','fuel','efficiency',
-    'voltage','input_output','confidence','notes','ocr_text'];
-  const rows = state.items.map(e=>[
-    state.respondent.siteId,state.respondent.address,
-    state.respondent.homeType,state.respondent.yearBuilt,
-    e.type,e.location,e.data.manufacturer,e.data.model,e.data.serial,e.data.year,
-    e.data.capacity,e.data.fuel,e.data.efficiency,e.data.voltage,
-    e.data.inputOutput,e.data.confidence,e.data.notes,e.ocrText,
-  ].map(esc).join(','));
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([[hdrs.join(','),...rows].join('\n')],{type:'text/csv'}));
-  a.download=`nameplate-survey-${state.respondent.siteId||'response'}.csv`;
-  a.click();
-}
+// ── Render ───────────────────────────────────────────────────────────────────
+function render(){
+  const root=document.getElementById('root');
+  const {step,items,r}=S;
+  const proc=items.filter(i=>!['Not processed','Scanning...'].includes(i.data.confidence)).length;
+  const pct=items.length?Math.round(proc/items.length*100):0;
+  const pw=document.getElementById('prog-wrap');
+  if(step===2){pw.style.display='block';document.getElementById('prog-lbl').textContent=pct+'%';document.getElementById('prog-fill').style.width=pct+'%'}else{pw.style.display='none'}
 
-// ─── Pill helper ──────────────────────────────────────────────────────────────
-function pillClass(conf) {
-  if (conf==='High') return 'pill pill-high';
-  if (conf==='Medium') return 'pill pill-medium';
-  if (conf==='Low') return 'pill pill-low';
-  if (conf==='Needs review') return 'pill pill-review';
-  if (conf==='Scanning...'||conf==='Processing...') return 'pill pill-scanning';
-  return 'pill pill-none';
-}
-
-// ─── Render ───────────────────────────────────────────────────────────────────
-function render() {
-  const root = document.getElementById('app-root');
-  const {step, items, respondent} = state;
-
-  // Update progress bar
-  const processed = items.filter(i=>!['Not processed','Scanning...'].includes(i.data.confidence)).length;
-  const pct = items.length ? Math.round(processed/items.length*100) : 0;
-  const pw = document.getElementById('progress-wrap');
-  if (step===2) {
-    pw.style.display='block';
-    document.getElementById('progress-label').textContent=`${pct}% complete`;
-    document.getElementById('progress-fill').style.width=`${pct}%`;
-  } else { pw.style.display='none'; }
-
-  // Steps
-  const stepHtml = `<div class="step-bar">
-    ${[['Site','1'],['Equipment','2'],['Review','3']].map(([lbl,n],i)=>{
-      const active=step==n, done=step>n;
-      const dotStyle=done?'background:#15803d;color:#fff':active?'background:#2563eb;color:#fff':'background:#e2e8f0;color:#94a3b8';
-      const lineStyle=done?'background:#15803d':'background:#e2e8f0';
-      return `
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:0 0 auto">
-          <div class="step-dot" style="${dotStyle}">${done?'✓':n}</div>
-          <div class="step-lbl" style="color:${active?'#2563eb':done?'#15803d':'#94a3b8'}">${lbl}</div>
-        </div>
-        ${i<2?`<div class="step-line" style="${lineStyle};margin-bottom:20px"></div>`:''}`;
-    }).join('')}
-  </div>`;
-
-  if (step===1) {
-    root.innerHTML = stepHtml + `
-    <div class="card">
-      <div class="card-head"><span style="font-weight:800;font-size:16px">Site information</span></div>
-      <div class="card-body" style="display:grid;gap:13px">
-        <div class="grid2">
-          <div><label class="lbl">Site / Household ID</label><input id="f-siteId" value="${esc(respondent.siteId)}" placeholder="HH-0042"></div>
-          <div><label class="lbl">Contact name</label><input id="f-contactName" value="${esc(respondent.contactName)}"></div>
-        </div>
-        <div><label class="lbl">Address</label><input id="f-address" value="${esc(respondent.address)}" placeholder="123 Main St, City, State"></div>
-        <div><label class="lbl">Email</label><input id="f-email" type="email" value="${esc(respondent.email)}" placeholder="optional"></div>
-        <div class="grid2">
-          <div><label class="lbl">Home type</label><select id="f-homeType">
-            ${HOME_TYPES.map(t=>`<option${t===respondent.homeType?' selected':''}>${t}</option>`).join('')}
-          </select></div>
-          <div><label class="lbl">Year built</label><input id="f-yearBuilt" value="${esc(respondent.yearBuilt)}" placeholder="1987" inputmode="numeric"></div>
-        </div>
-        <div><label class="lbl">Notes</label><textarea id="f-notes" rows="3" placeholder="Any context about this home…">${esc(respondent.notes)}</textarea></div>
-        <div style="display:flex;justify-content:flex-end;margin-top:4px">
-          <button class="btn btn-primary" onclick="saveStep1()">Next: Add equipment →</button>
-        </div>
-      </div>
-    </div>`;
+  if(step===1){
+    root.innerHTML=stepBar()+`<div class="card"><div class="card-head"><span style="font-weight:800;font-size:16px">Site information</span></div><div class="card-body">
+      <div class="g2"><div><label class="lbl">Site / Household ID</label><input id="f-siteId" value="${esc(r.siteId)}" placeholder="HH-0042"></div><div><label class="lbl">Contact name</label><input id="f-contactName" value="${esc(r.contactName)}"></div></div>
+      <div><label class="lbl">Address</label><input id="f-address" value="${esc(r.address)}" placeholder="123 Main St, City, State"></div>
+      <div><label class="lbl">Email</label><input id="f-email" type="email" value="${esc(r.email)}" placeholder="optional"></div>
+      <div class="g2"><div><label class="lbl">Home type</label><select id="f-homeType">${HTYPES.map(t=>`<option${t===r.homeType?' selected':''}>${t}</option>`).join('')}</select></div><div><label class="lbl">Year built</label><input id="f-yearBuilt" value="${esc(r.yearBuilt)}" placeholder="1987" inputmode="numeric"></div></div>
+      <div><label class="lbl">Notes</label><textarea id="f-notes" rows="3" placeholder="Any context about this home…">${esc(r.notes)}</textarea></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-navy" onclick="step1Next()">Next: Add equipment →</button></div>
+    </div></div>`;
   }
 
-  else if (step===2) {
-    const itemsHtml = items.map((item,idx) => {
-      const conf = item.data.confidence;
-      return `
-      <div class="card" id="card-${item.id}">
-        <div class="card-head">
-          <div>
-            <span style="font-weight:800;font-size:15px">#${idx+1} — ${esc(item.type)}</span>
-            ${item.location?`<span style="font-size:13px;color:#94a3b8;margin-left:6px">(${esc(item.location)})</span>`:''}
-          </div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span class="${pillClass(conf)}">${conf}</span>
-            <button class="remove-btn" onclick="removeItem('${item.id}')" title="Remove">×</button>
-          </div>
+  else if(step===2){
+    const cards=items.map((item,idx)=>{
+      const c=item.data.confidence;
+      return`<div class="card" id="card-${item.id}"><div class="card-head">
+        <div><span style="font-weight:800;font-size:15px">#${idx+1} — ${esc(item.type)}</span>${item.location?`<span style="font-size:13px;color:#94a3b8;margin-left:6px">(${esc(item.location)})</span>`:''}</div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="${pillCls(c)}">${c}</span><button class="rmv" onclick="removeItem('${item.id}')">×</button></div>
+      </div><div class="card-body">
+        <div class="g2">
+          <div><label class="lbl">Appliance type</label><select onchange="updF('${item.id}','type',this.value)">${ATYPES.map(t=>`<option${t===item.type?' selected':''}>${t}</option>`).join('')}</select></div>
+          <div><label class="lbl">Location</label><input placeholder="Basement, attic…" value="${esc(item.location)}" oninput="updF('${item.id}','location',this.value)"></div>
         </div>
-        <div class="card-body" style="display:grid;gap:13px">
-          <div class="grid2">
-            <div><label class="lbl">Appliance type</label>
-              <select onchange="updateField('${item.id}','type',this.value)">
-                ${APPLIANCE_TYPES.map(t=>`<option${t===item.type?' selected':''}>${t}</option>`).join('')}
-              </select>
-            </div>
-            <div><label class="lbl">Location in home</label>
-              <input placeholder="Basement, attic…" value="${esc(item.location)}"
-                oninput="updateField('${item.id}','location',this.value)">
-            </div>
-          </div>
-
-          <div class="photo-zone">
-            <input type="file" accept="image/*" capture="environment"
-              id="file-${item.id}" style="display:none"
-              onchange="handlePhoto('${item.id}', this.files[0])">
-            ${item.photoPreview
-              ? `<div style="position:relative">
-                  <img class="photo-preview" src="${item.photoPreview}" alt="Nameplate photo">
-                  <button class="btn btn-primary btn-sm photo-retake"
-                    onclick="document.getElementById('file-${item.id}').click()">📷 Retake</button>
-                </div>`
-              : `<button class="photo-btn" onclick="document.getElementById('file-${item.id}').click()">
-                  <span class="photo-icon">📷</span>
-                  <span class="photo-title">Tap to photograph nameplate</span>
-                  <span class="photo-sub">Processed locally · no data sent anywhere</span>
-                </button>`
-            }
-            ${item.status==='scanning'
-              ? `<div class="status-bar status-scanning"><span class="spin">⟳</span> Running OCR on device…</div>` : ''}
-            ${item.status==='done'&&item.ocrText
-              ? `<div class="status-bar status-done">✓ OCR complete — ${item.ocrText.trim().split(/\s+/).length} words read</div>` : ''}
-            ${item.error
-              ? `<div class="status-bar status-error">⚠ ${esc(item.error)}</div>` : ''}
-          </div>
-
-          ${state.ocrState==='failed'
-            ? `<div class="ocr-banner">⚠ OCR engine unavailable. Type or paste the nameplate text below, then tap <b>Re-parse</b>.</div>` : ''}
-
-          <div>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-              <label class="lbl" style="margin:0">Raw OCR text</label>
-              <button class="btn btn-gray btn-sm" onclick="reparse('${item.id}')">⟳ Re-parse fields</button>
-            </div>
-            <textarea class="mono" rows="5"
-              placeholder="OCR text appears here automatically. You can also paste or type nameplate text, then tap Re-parse."
-              oninput="updateField('${item.id}','ocrText',this.value)">${esc(item.ocrText)}</textarea>
-          </div>
-
-          <div>
-            <div class="section-label">Extracted fields — verify &amp; correct</div>
-            <div class="field-grid">
-              <div><label class="lbl">Manufacturer</label><input class="mono" value="${esc(item.data.manufacturer)}" oninput="updateData('${item.id}','manufacturer',this.value)"></div>
-              <div><label class="lbl">Model number</label><input class="mono" value="${esc(item.data.model)}" oninput="updateData('${item.id}','model',this.value)"></div>
-              <div><label class="lbl">Serial number</label><input class="mono" value="${esc(item.data.serial)}" oninput="updateData('${item.id}','serial',this.value)"></div>
-              <div><label class="lbl">Year</label><input class="mono" value="${esc(item.data.year)}" placeholder="e.g. 2019" inputmode="numeric" oninput="updateData('${item.id}','year',this.value)"></div>
-              <div><label class="lbl">Capacity</label><input class="mono" value="${esc(item.data.capacity)}" placeholder="e.g. 50 GAL" oninput="updateData('${item.id}','capacity',this.value)"></div>
-              <div><label class="lbl">Fuel type</label><input class="mono" value="${esc(item.data.fuel)}" oninput="updateData('${item.id}','fuel',this.value)"></div>
-              <div><label class="lbl">Efficiency</label><input class="mono" value="${esc(item.data.efficiency)}" placeholder="e.g. UEF 0.93" oninput="updateData('${item.id}','efficiency',this.value)"></div>
-              <div><label class="lbl">Voltage</label><input class="mono" value="${esc(item.data.voltage)}" placeholder="e.g. 240V" oninput="updateData('${item.id}','voltage',this.value)"></div>
-            </div>
-            <div style="margin-top:10px"><label class="lbl">Input / Output</label>
-              <input class="mono" value="${esc(item.data.inputOutput)}" placeholder="e.g. INPUT 60,000 BTUH" oninput="updateData('${item.id}','inputOutput',this.value)">
-            </div>
-            <div style="margin-top:10px"><label class="lbl">Notes</label>
-              <textarea rows="2" placeholder="Certifications, amperage, extra specs…"
-                oninput="updateData('${item.id}','notes',this.value)">${esc(item.data.notes)}</textarea>
-            </div>
-          </div>
+        <div class="photo-zone">
+          <input type="file" accept="image/*" capture="environment" id="fi-${item.id}" style="display:none" onchange="handlePhoto('${item.id}',this.files[0])">
+          ${item.photoPreview
+            ?`<div style="position:relative"><img class="photo-preview" src="${item.photoPreview}" alt="Nameplate"><button class="btn btn-navy btn-sm" style="position:absolute;bottom:8px;right:8px" onclick="document.getElementById('fi-${item.id}').click()">📷 Retake</button></div>`
+            :`<button class="photo-btn" onclick="document.getElementById('fi-${item.id}').click()"><span style="font-size:42px;display:block;margin-bottom:8px">📷</span><span style="font-size:15px;font-weight:700;color:#2563eb;display:block;margin-bottom:4px">Tap to photograph nameplate</span><span style="font-size:13px;color:#94a3b8;display:block">Runs 100% on your device</span></button>`}
+          ${item.status==='scanning'?`<div class="status-bar s-scan"><span class="spin">⟳</span> Running OCR on device…</div>`:''}
+          ${item.status==='done'&&item.ocrText?`<div class="status-bar s-done">✓ OCR complete — ${item.ocrText.trim().split(/\s+/).length} words read</div>`:''}
+          ${item.error?`<div class="status-bar s-err">⚠ ${esc(item.error)}</div>`:''}
+          ${S.ocrState==='failed'?`<div class="status-bar s-warn">⚠ OCR unavailable — type nameplate text below then tap Re-parse</div>`:''}
         </div>
-      </div>`;
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <label class="lbl" style="margin:0">Raw OCR text</label>
+            <button class="btn btn-gray btn-sm" onclick="reparse('${item.id}')">⟳ Re-parse fields</button>
+          </div>
+          <textarea class="mono" rows="5" placeholder="OCR text appears here after scan. Or type/paste nameplate text manually, then Re-parse." oninput="updF('${item.id}','ocrText',this.value)">${esc(item.ocrText)}</textarea>
+        </div>
+        <div>
+          <div class="sec">Extracted fields — verify &amp; correct</div>
+          <div class="fgrid">
+            <div><label class="lbl">Manufacturer</label><input class="mono" value="${esc(item.data.manufacturer)}" oninput="updD('${item.id}','manufacturer',this.value)"></div>
+            <div><label class="lbl">Model number</label><input class="mono" value="${esc(item.data.model)}" oninput="updD('${item.id}','model',this.value)"></div>
+            <div><label class="lbl">Serial number</label><input class="mono" value="${esc(item.data.serial)}" oninput="updD('${item.id}','serial',this.value)"></div>
+            <div><label class="lbl">Year</label><input class="mono" value="${esc(item.data.year)}" placeholder="e.g. 2019" inputmode="numeric" oninput="updD('${item.id}','year',this.value)"></div>
+            <div><label class="lbl">Capacity</label><input class="mono" value="${esc(item.data.capacity)}" placeholder="50 GAL" oninput="updD('${item.id}','capacity',this.value)"></div>
+            <div><label class="lbl">Fuel type</label><input class="mono" value="${esc(item.data.fuel)}" oninput="updD('${item.id}','fuel',this.value)"></div>
+            <div><label class="lbl">Efficiency</label><input class="mono" value="${esc(item.data.efficiency)}" placeholder="UEF 0.93" oninput="updD('${item.id}','efficiency',this.value)"></div>
+            <div><label class="lbl">Voltage</label><input class="mono" value="${esc(item.data.voltage)}" placeholder="240V" oninput="updD('${item.id}','voltage',this.value)"></div>
+          </div>
+          <div style="margin-top:10px"><label class="lbl">Input / Output</label><input class="mono" value="${esc(item.data.inputOutput)}" placeholder="INPUT 60,000 BTUH" oninput="updD('${item.id}','inputOutput',this.value)"></div>
+          <div style="margin-top:10px"><label class="lbl">Notes</label><textarea rows="2" placeholder="Certifications, amperage…" oninput="updD('${item.id}','notes',this.value)">${esc(item.data.notes)}</textarea></div>
+        </div>
+      </div></div>`;
     }).join('');
 
-    root.innerHTML = stepHtml + `
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-      <span style="font-size:13px;color:#64748b">${items.length} appliance${items.length!==1?'s':''} added</span>
-      <button class="btn btn-primary" onclick="addItem()">+ Add appliance</button>
-    </div>
-    ${itemsHtml}
-    <div style="display:flex;justify-content:space-between;margin-top:6px">
-      <button class="btn btn-gray" onclick="setStep(1)">← Back</button>
-      <button class="btn btn-green" onclick="setStep(3)">Review & Export →</button>
-    </div>`;
+    root.innerHTML=stepBar()+`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px"><span style="font-size:13px;color:#64748b">${items.length} appliance${items.length!==1?'s':''}</span><button class="btn btn-navy" onclick="addItem()">+ Add appliance</button></div>${cards}<div style="display:flex;justify-content:space-between;margin-top:4px"><button class="btn btn-gray" onclick="go(1)">← Back</button><button class="btn btn-green" onclick="go(3)">Review & Export →</button></div>`;
   }
 
-  else if (step===3) {
-    const done = items.filter(i=>i.status==='done').length;
-    const high = items.filter(i=>i.data.confidence==='High').length;
-    const reviewItems = items.map((item,i) => `
-      <div class="card" style="margin-bottom:10px">
-        <div class="card-head">
-          <span style="font-weight:800;font-size:14px">#${i+1} ${esc(item.type)}${item.location?' — '+esc(item.location):''}</span>
-          <span class="${pillClass(item.data.confidence)}">${item.data.confidence}</span>
-        </div>
-        <div style="padding:12px 14px">
-          ${item.photoPreview?`<img src="${item.photoPreview}" style="width:100%;max-height:130px;object-fit:contain;background:#f1f5f9;border-radius:8px;margin-bottom:10px">` : ''}
-          <div class="review-row">
-            ${[['Manufacturer',item.data.manufacturer],['Model',item.data.model],
-               ['Serial',item.data.serial],['Year',item.data.year],
-               ['Capacity',item.data.capacity],['Fuel',item.data.fuel],
-               ['Efficiency',item.data.efficiency],['Voltage',item.data.voltage],
-               ['Input/Output',item.data.inputOutput]].map(([k,v])=>
-              `<div class="review-cell"><span class="review-key">${k}:</span> <span class="review-val${!v?' empty':''}">${v||'—'}</span></div>`
-            ).join('')}
-          </div>
-          ${item.data.notes?`<div class="notes-box">${esc(item.data.notes)}</div>`:''}
-        </div>
-      </div>`).join('');
+  else if(step===3){
+    const done=items.filter(i=>i.status==='done').length;
+    const high=items.filter(i=>i.data.confidence==='High').length;
+    const rev=items.map((item,i)=>`<div class="card" style="margin-bottom:10px"><div class="card-head"><span style="font-weight:800;font-size:14px">#${i+1} ${esc(item.type)}${item.location?' — '+esc(item.location):''}</span><span class="${pillCls(item.data.confidence)}">${item.data.confidence}</span></div><div style="padding:12px 14px">${item.photoPreview?`<img src="${item.photoPreview}" style="width:100%;max-height:130px;object-fit:contain;background:#f1f5f9;border-radius:8px;margin-bottom:10px">`:''}<div class="rrow">${[['Manufacturer',item.data.manufacturer],['Model',item.data.model],['Serial',item.data.serial],['Year',item.data.year],['Capacity',item.data.capacity],['Fuel',item.data.fuel],['Efficiency',item.data.efficiency],['Voltage',item.data.voltage],['Input/Output',item.data.inputOutput]].map(([k,v])=>`<div class="rcell"><span class="rkey">${k}:</span> <span class="rval${!v?' e':''}">${v||'—'}</span></div>`).join('')}</div>${item.data.notes?`<div class="nbx">${esc(item.data.notes)}</div>`:''}</div></div>`).join('');
 
-    root.innerHTML = stepHtml + `
-    <div class="card" style="padding:16px;margin-bottom:14px">
-      <div style="font-weight:800;font-size:15px;margin-bottom:12px">Survey summary</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px">
-        <div class="summary-stat"><div class="stat-lbl">Total</div><div class="stat-val">${items.length}</div></div>
-        <div class="summary-stat"><div class="stat-lbl">Processed</div><div class="stat-val">${done}</div></div>
-        <div class="summary-stat"><div class="stat-lbl">High conf.</div><div class="stat-val">${high}</div></div>
-      </div>
-      <div style="font-size:13px;color:#64748b">
-        <b style="color:#0f172a">Site:</b> ${esc(respondent.address)||'—'} &nbsp;·&nbsp;
-        <b style="color:#0f172a">ID:</b> ${esc(respondent.siteId)||'—'}
-      </div>
-    </div>
-    ${reviewItems}
-    <div class="card" style="padding:16px;margin-bottom:14px">
-      <div style="font-weight:800;font-size:15px;margin-bottom:10px">Export data</div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px">
-        <button class="btn btn-primary" onclick="exportJSON()">⬇ Export JSON</button>
-        <button class="btn btn-green" onclick="exportCSV()">⬇ Export CSV</button>
-      </div>
-      <div style="font-size:12px;color:#94a3b8">All data stays on-device. Nothing is sent to any server.</div>
-    </div>
-    <button class="btn btn-gray" onclick="setStep(2)">← Back to edit</button>`;
+    root.innerHTML=stepBar()+`
+      <div class="card" style="padding:16px;margin-bottom:14px"><div style="font-weight:800;font-size:15px;margin-bottom:12px">Summary</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px"><div class="stat"><div class="stat-l">Total</div><div class="stat-v">${items.length}</div></div><div class="stat"><div class="stat-l">Processed</div><div class="stat-v">${done}</div></div><div class="stat"><div class="stat-l">High conf.</div><div class="stat-v">${high}</div></div></div><div style="font-size:13px;color:#64748b"><b style="color:#0f172a">Site:</b> ${esc(r.address)||'—'} · <b style="color:#0f172a">ID:</b> ${esc(r.siteId)||'—'}</div></div>
+      ${rev}
+      <div class="card" style="padding:16px;margin-bottom:14px"><div style="font-weight:800;font-size:15px;margin-bottom:10px">Export</div><div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px"><button class="btn btn-navy" onclick="exportJSON()">⬇ JSON</button><button class="btn btn-green" onclick="exportCSV()">⬇ CSV</button></div><div style="font-size:12px;color:#94a3b8">All data stays on-device. Nothing is sent to any server.</div></div>
+      <button class="btn btn-gray" onclick="go(2)">← Back to edit</button>`;
   }
 }
 
-// ─── Event handlers ───────────────────────────────────────────────────────────
-function esc(s) { return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-function setStep(n) { state.step=n; render(); window.scrollTo(0,0); }
-
-function saveStep1() {
-  ['siteId','contactName','address','email','homeType','yearBuilt','notes'].forEach(k=>{
-    const el=document.getElementById('f-'+k);
-    if (el) state.respondent[k]=el.value;
-  });
-  setStep(2);
+// ── Handlers ─────────────────────────────────────────────────────────────────
+function go(n){S.step=n;render();window.scrollTo(0,0)}
+function step1Next(){
+  ['siteId','contactName','address','email','homeType','yearBuilt','notes'].forEach(k=>{const el=document.getElementById('f-'+k);if(el)S.r[k]=el.value});
+  go(2);
 }
+function addItem(){S.items.push(mkItem());render()}
+function removeItem(id){if(S.items.length>1)S.items=S.items.filter(i=>i.id!==id);render()}
+function updF(id,k,v){updItem(id,{[k]:v})}
+function updD(id,k,v){const it=getItem(id);if(it)updItem(id,{data:{...it.data,[k]:v}})}
+function reparse(id){const it=getItem(id);if(!it)return;updItem(id,{data:parseOCR(it.ocrText,it.type),status:'done'});render()}
 
-function addItem() { state.items.push(newItem()); render(); }
-
-function removeItem(id) {
-  if (state.items.length<=1) return;
-  state.items = state.items.filter(i=>i.id!==id);
-  render();
-}
-
-function updateField(id, key, val) { updateItem(id,{[key]:val}); }
-
-function updateData(id, key, val) {
-  const item=getItem(id);
-  if (!item) return;
-  updateItem(id,{data:{...item.data,[key]:val}});
-}
-
-function reparse(id) {
-  const item=getItem(id);
-  if (!item) return;
-  const data=parseOCR(item.ocrText,item.type);
-  updateItem(id,{data,status:'done'});
-  render();
-}
-
-async function handlePhoto(id, file) {
-  if (!file) return;
+async function handlePhoto(id,file){
+  if(!file)return;
   const preview=URL.createObjectURL(file);
   const item=getItem(id);
-  updateItem(id,{photoFile:file,photoPreview:preview,status:'scanning',error:'',
-    ocrText:'',data:{...item.data,confidence:'Scanning...'}});
+  updItem(id,{photoFile:file,photoPreview:preview,status:'scanning',error:'',ocrText:'',data:{...item.data,confidence:'Scanning...'}});
   render();
 
-  if (state.ocrState!=='ready') {
-    updateItem(id,{status:'error',error:'OCR engine not available. Paste nameplate text above and tap Re-parse.',
-      data:{...getItem(id).data,confidence:'Needs review'}});
-    render(); return;
+  if(S.ocrState!=='ready'){
+    updItem(id,{status:'error',error:'OCR not ready — type nameplate text above and tap Re-parse.',data:{...getItem(id).data,confidence:'Needs review'}});
+    render();return;
   }
-
-  try {
-    const canvas=await preprocessImage(file);
-    const result=await ocrWorker.recognize(canvas);
+  try{
+    const canvas=await preprocess(file);
+    // v4 API: worker.recognize() directly — no scheduler needed
+    const result=await OCR.recognize(canvas);
     const ocrText=result.data.text||'';
     const data=parseOCR(ocrText,getItem(id).type);
-    updateItem(id,{ocrText,data,status:'done',error:''});
-  } catch(err) {
-    updateItem(id,{status:'error',error:'OCR failed: '+err.message,
-      data:{...getItem(id).data,confidence:'Needs review',
-        notes:'OCR failed — type the nameplate text manually and tap Re-parse.'}});
+    updItem(id,{ocrText,data,status:'done',error:''});
+  }catch(err){
+    updItem(id,{status:'error',error:'OCR failed: '+err.message,data:{...getItem(id).data,confidence:'Needs review',notes:'OCR failed — type nameplate text and tap Re-parse.'}});
   }
   render();
 }
 
-// ─── Boot ─────────────────────────────────────────────────────────────────────
+// ── Boot ─────────────────────────────────────────────────────────────────────
 render();
-if (typeof Tesseract !== 'undefined') {
-  initOCR();
-} else {
-  // Script load failed
-  state.ocrState='failed';
-  document.getElementById('ocr-status-text').textContent='⚠ OCR unavailable — manual mode';
-  document.getElementById('ocr-status-text').className='ocr-status ocr-failed';
-}
+// Tesseract script loaded via <script> tag below — wait for it
+window.addEventListener('tesseract-ready',initOCR);
+</script>
+
+<!-- Load Tesseract.js then fire event -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.4/dist/tesseract.min.js"
+  onload="window.dispatchEvent(new Event('tesseract-ready'))"
+  onerror="(function(){S.ocrState='failed';document.getElementById('ocr-txt').className='ocrs failed';document.getElementById('ocr-txt').textContent='⚠ Could not load OCR library'})()">
 </script>
 </body>
 </html>
