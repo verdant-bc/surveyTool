@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Verdant — Nameplate Survey v1.5</title>
+<title>Verdant — Nameplate Survey v1.6</title>
 <style>
 :root{
   --dk:#0E321C;--md:#1B5E38;--ac:#97B23E;--lt:#C5CD9F;
@@ -116,7 +116,7 @@ textarea{resize:vertical;line-height:1.55}
   <div class="hi">
     <div>
       <div class="hbrand">Verdant Energy Consulting</div>
-      <div class="htitle">Nameplate Survey <span class="hver">v1.5</span></div>
+      <div class="htitle">Nameplate Survey <span class="hver">v1.6</span></div>
     </div>
     <div style="text-align:right">
       <div id="ocr-txt" class="ocrs loading"><span class="spin">⟳</span> Loading OCR…</div>
@@ -131,7 +131,7 @@ textarea{resize:vertical;line-height:1.55}
 <div id="main"><div id="root"></div></div>
 
 <script>
-const APP_VER='v1.5';
+const APP_VER='v1.6';
 const HTYPES=['Single-family detached','Single-family attached','Manufactured home','Apartment / multifamily','Commercial','Other'];
 const ATYPES=['Water Heater','Furnace / Boiler','Heat Pump','Air Conditioner','Refrigerator','Freezer','Dishwasher','Clothes Washer','Clothes Dryer','Range / Oven','Electrical Panel','Other'];
 
@@ -162,18 +162,18 @@ async function initOCR(){
     let simd=false;
     try{simd=WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,0,0,1,5,1,96,0,1,123,3,2,1,0,10,10,1,8,0,65,0,253,15,253,98,11]))}catch(e){}
     const base='https://cdn.jsdelivr.net/npm/tesseract.js@4.1.4/dist/';
-    const cbase='https://cdn.jsdelivr.net/npm/tesseract.js-core@3.0.2/';
+    const cbase='https://cdn.jsdelivr.net/npm/tesseract.js-core@4.0.0/';
     OCR_CFG={
       workerPath:base+'worker.min.js',
       langPath:'https://tessdata.projectnaptha.com/4.0.0',
-      corePath:cbase+(simd?'tesseract-core-simd.wasm.js':'tesseract-core.wasm.js'),
+      corePath:cbase+(simd?'tesseract-core-simd-lstm.wasm.js':'tesseract-core-lstm.wasm.js'),
       logger:()=>{},
     };
     // Warm-up: create+terminate a worker so WASM & lang data are cached
     const w=await Tesseract.createWorker('eng',1,OCR_CFG);
     await w.terminate();
     S.ocrState='ready';
-    setOcrUI('ready','✓ OCR ready ('+(simd?'SIMD':'compat')+')');
+    setOcrUI('ready','✓ OCR ready ('+(simd?'SIMD+LSTM':'LSTM')+')');
   }catch(err){
     console.error('Tesseract init:',err);
     S.ocrState='failed';
