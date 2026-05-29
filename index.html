@@ -5,72 +5,80 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Verdant — Nameplate Survey v1.11</title>
+<title>Verdant — Equipment Inventory v2.0</title>
 <style>
 :root{
-  --dk:#0E321C;--md:#1B5E38;--ac:#97B23E;--lt:#C5CD9F;
-  --bg:#EFF4E8;--card:#fff;--border:#D4DFC4;--border2:#B8CCA4;
-  --text:#102718;--muted:#5A7A5E;--faint:#A8BEA4;
-  --red:#C0392B;--red-bg:#FEF2F0;--red-b:#F5C6C2;
-  --amber:#92600A;--amber-bg:#FEFCE8;--amber-b:#F9E09A;
-  --scan-bg:#E8F0FE;--scan-b:#A8C0F8;--scan-c:#1A4FBB;
+  --dk:#0E321C; --md:#1B5E38; --ac:#97B23E; --lt:#C5CD9F;
+  --bg:#EFF4E8; --card:#fff; --border:#D4DFC4; --border2:#B8CCA4;
+  --text:#102718; --muted:#5A7A5E; --faint:#A8BEA4;
+  --red:#C0392B; --red-bg:#FEF2F0; --red-b:#F5C6C2;
+  --amber:#92600A; --amber-bg:#FEFCE8; --amber-b:#F9E09A;
+  --blue:#1A4FBB; --blue-bg:#EEF3FE; --blue-b:#BFCFFA;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 input,select,textarea,button{font-family:inherit;font-size:16px}
-input,select,textarea{
-  width:100%;padding:11px 13px;
-  border:1.5px solid var(--border);border-radius:10px;
-  background:#fff;color:var(--text);
-  transition:border-color .15s,box-shadow .15s;
-  -webkit-appearance:none;appearance:none;
-}
+input,select,textarea{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;background:#fff;color:var(--text);transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px rgba(151,178,62,.18)}
 textarea{resize:vertical;line-height:1.55}
-/* Typography */
 .lbl{display:block;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
-/* Cards */
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:14px;box-shadow:0 1px 3px rgba(14,50,28,.06)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:14px;box-shadow:0 1px 4px rgba(14,50,28,.07)}
 .card-head{background:#F7FAF2;padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px}
 .card-body{padding:16px;display:grid;gap:14px}
-/* Buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 20px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .1s,box-shadow .15s;white-space:nowrap;-webkit-appearance:none;letter-spacing:.01em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 20px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .1s;white-space:nowrap;-webkit-appearance:none;letter-spacing:.01em}
 .btn:active{opacity:.82;transform:scale(.97)}
-.btn-primary{background:var(--dk);color:#fff;box-shadow:0 2px 6px rgba(14,50,28,.25)}
-.btn-accent{background:var(--ac);color:#fff;box-shadow:0 2px 6px rgba(151,178,62,.3)}
+.btn-primary{background:var(--dk);color:#fff;box-shadow:0 2px 6px rgba(14,50,28,.22)}
+.btn-accent{background:var(--ac);color:#fff;box-shadow:0 2px 6px rgba(151,178,62,.28)}
 .btn-ghost{background:#fff;color:var(--dk);border:1.5px solid var(--border2)}
+.btn-blue{background:var(--blue);color:#fff}
 .btn-sm{padding:8px 14px;font-size:13px;border-radius:8px}
-/* Pills */
+.btn-xs{padding:5px 10px;font-size:12px;border-radius:7px}
 .pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.02em}
-.p-high{background:#D6EDCC;color:#1E6B0E}
-.p-med{background:#FFF0C2;color:#8A5A00}
-.p-low{background:var(--red-bg);color:var(--red)}
-.p-rev{background:#EDE0FF;color:#5B21B6}
-.p-scan{background:var(--scan-bg);color:var(--scan-c)}
-.p-none{background:#EEF2EB;color:var(--faint)}
-/* Layout */
+.p-done{background:#D6EDCC;color:#1E6B0E}
+.p-partial{background:#FFF0C2;color:#8A5A00}
+.p-empty{background:#EEF2EB;color:var(--faint)}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-/* Photo strip */
-.photo-strip{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
-.photo-strip::-webkit-scrollbar{height:4px}
-.photo-strip::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-.photo-thumb{position:relative;flex-shrink:0;width:108px;height:88px;border-radius:10px;overflow:hidden;border:1.5px solid var(--border);background:#F7FAF2}
-.photo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.del-photo{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(14,50,28,.72);color:#fff;border:none;cursor:pointer;font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center}
-.scan-overlay{position:absolute;inset:0;background:rgba(27,94,56,.38);display:flex;align-items:center;justify-content:center}
-.done-badge{position:absolute;bottom:5px;left:5px;background:var(--md);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;letter-spacing:.04em}
-.err-badge{position:absolute;bottom:5px;left:5px;background:var(--red);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px}
-.photo-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
-/* Status bars */
-.sbar{padding:9px 14px;font-size:13px;display:flex;align-items:flex-start;gap:8px;border-top:1px solid}
-.s-scan{background:var(--scan-bg);border-color:var(--scan-b);color:var(--scan-c)}
-.s-done{background:#EAF5E4;border-color:#B6DFA8;color:#1B6B0E}
-.s-err{background:var(--red-bg);border-color:var(--red-b);color:var(--red)}
-.s-warn{background:var(--amber-bg);border-color:var(--amber-b);color:var(--amber)}
-.err-detail{font-size:11px;opacity:.8;margin-top:3px;word-break:break-word}
-/* Fields */
-.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.mono{font-family:'SFMono-Regular',Menlo,'Courier New',monospace;font-size:13px}
+/* Header */
+#hdr{background:var(--dk);color:#fff;padding:13px 16px;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(14,50,28,.3)}
+.hi{display:flex;align-items:center;justify-content:space-between;max-width:660px;margin:0 auto}
+.hbrand{font-size:10px;color:var(--lt);font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px}
+.htitle{font-size:17px;font-weight:900;display:flex;align-items:baseline;gap:8px}
+.hver{font-size:11px;font-weight:700;background:rgba(197,205,159,.2);color:var(--lt);padding:2px 8px;border-radius:5px;letter-spacing:.05em}
+/* Steps */
+#main{max-width:660px;margin:0 auto;padding:16px 14px 60px}
+.step-bar{display:flex;align-items:center;margin-bottom:20px}
+.sdot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.sline{flex:1;height:2px}
+.slbl{font-size:11px;font-weight:700;margin-top:4px;text-align:center;white-space:nowrap}
+/* Photo viewer */
+.photo-zone{border:1.5px dashed var(--border2);border-radius:12px;overflow:hidden;background:#F7FAF2;position:relative}
+.photo-add-btn{width:100%;padding:28px 16px;background:none;border:none;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.photo-add-icon{font-size:38px}
+.photo-main{position:relative;max-height:320px;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center}
+.photo-main img{width:100%;max-height:320px;object-fit:contain;display:block;cursor:zoom-in;transition:transform .25s}
+.photo-main img.zoomed{cursor:zoom-out;transform-origin:var(--ox,50%) var(--oy,50%)}
+.photo-thumb-row{display:flex;gap:8px;padding:8px;overflow-x:auto;background:#F7FAF2;border-top:1px solid var(--border)}
+.photo-thumb-row::-webkit-scrollbar{height:3px}
+.photo-thumb{position:relative;flex-shrink:0;width:60px;height:50px;border-radius:7px;overflow:hidden;border:2px solid transparent;cursor:pointer;transition:border-color .15s}
+.photo-thumb.active{border-color:var(--ac)}
+.photo-thumb img{width:100%;height:100%;object-fit:cover}
+.photo-thumb .delbtn{position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:rgba(14,50,28,.75);color:#fff;border:none;cursor:pointer;font-size:12px;line-height:1;display:flex;align-items:center;justify-content:center}
+.photo-add-thumb{flex-shrink:0;width:60px;height:50px;border-radius:7px;border:1.5px dashed var(--border2);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:11px;font-weight:700;gap:2px}
+.photo-actions{display:flex;gap:8px;padding:10px 10px 10px;flex-wrap:wrap;border-top:1px solid var(--border)}
+.zoom-hint{position:absolute;bottom:8px;right:8px;background:rgba(14,50,28,.65);color:#fff;font-size:11px;padding:3px 8px;border-radius:5px;pointer-events:none;font-weight:600}
+/* Field with hint */
+.field-wrap{position:relative}
+.field-hint{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;display:flex;align-items:flex-start;gap:5px}
+.hint-icon{flex-shrink:0;width:14px;height:14px;background:var(--ac);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;margin-top:1px}
+/* Confirmation checklist */
+.confirm-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;border:1.5px solid var(--border);background:#FAFCF7;cursor:pointer;transition:border-color .15s,background .15s;user-select:none}
+.confirm-row.checked{border-color:var(--ac);background:#EFF6E4}
+.confirm-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--border2);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;transition:background .15s,border-color .15s}
+.confirm-row.checked .confirm-check{background:var(--ac);border-color:var(--ac);color:#fff}
+.confirm-label{font-size:14px;font-weight:600;color:var(--text)}
+.confirm-val{font-size:13px;color:var(--muted);font-family:monospace;margin-left:auto;max-width:50%;text-align:right;word-break:break-all}
+/* Divider */
 .sec{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-bottom:11px}
 /* Review */
 .rrow{display:grid;grid-template-columns:1fr 1fr;gap:2px 14px;font-size:13px}
@@ -78,52 +86,31 @@ textarea{resize:vertical;line-height:1.55}
 .rkey{color:var(--faint)}
 .rval{font-weight:700;font-family:monospace;color:var(--text)}
 .rval.e{color:#D4DFC4}
-/* Summary stats */
 .stat{background:#F7FAF2;border:1px solid var(--border);border-radius:10px;padding:12px 14px}
 .stat-l{font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
 .stat-v{font-size:26px;font-weight:900;color:var(--dk);line-height:1.1;margin-top:3px}
-/* Step bar */
-.step-bar{display:flex;align-items:center;margin-bottom:20px}
-.sdot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
-.sline{flex:1;height:2px}
-.slbl{font-size:11px;font-weight:700;margin-top:4px;text-align:center}
-/* Header */
-#hdr{background:var(--dk);color:#fff;padding:13px 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(14,50,28,.3)}
-.hi{display:flex;align-items:center;justify-content:space-between;max-width:660px;margin:0 auto}
-.hbrand{font-size:12px;color:var(--lt);font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1px}
-.htitle{font-size:18px;font-weight:900;display:flex;align-items:baseline;gap:8px;letter-spacing:-.01em}
-.hver{font-size:11px;font-weight:700;background:rgba(197,205,159,.22);color:var(--lt);padding:2px 8px;border-radius:5px;letter-spacing:.05em}
-.ocrs{font-size:11px;margin-top:3px;display:flex;align-items:center;gap:5px}
-.ocrs.loading{color:#FADA75}
-.ocrs.ready{color:#7FDB72}
-.ocrs.failed{color:#F8A9A4}
-/* Main */
-#main{max-width:660px;margin:0 auto;padding:16px 14px 56px}
-.rmv{background:none;border:none;cursor:pointer;color:#CC5555;font-size:22px;line-height:1;padding:2px 6px;border-radius:7px;transition:background .15s}
-.rmv:hover{background:#FEF2F0}
-.pbar{height:3px;background:rgba(255,255,255,.18);border-radius:2px;margin-top:4px;width:76px}
+.pbar-wrap{width:80px}
+.pbar{height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin-top:5px}
 .pfill{height:100%;border-radius:2px;background:var(--ac);transition:width .4s}
+.rmv{background:none;border:none;cursor:pointer;color:#CC5555;font-size:22px;line-height:1;padding:2px 6px;border-radius:7px;transition:background .15s}
+.rmv:hover{background:var(--red-bg)}
 .nbx{margin-top:9px;background:#F7FAF2;border:1px solid var(--border);border-radius:9px;padding:9px 12px;font-size:12px;color:var(--muted);line-height:1.55}
+.info-box{background:var(--blue-bg);border:1px solid var(--blue-b);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--blue);line-height:1.6}
+.info-box b{color:#123E99}
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 .spin{display:inline-block;animation:spin .85s linear infinite}
-/* Divider */
-.field-divider{border:none;border-top:1px solid var(--border);margin:4px 0}
 </style>
 </head>
 <body>
-
 <div id="hdr">
   <div class="hi">
     <div>
       <div class="hbrand">Verdant Energy Consulting</div>
-      <div class="htitle">Nameplate Survey <span class="hver">v1.11</span></div>
+      <div class="htitle">Equipment Inventory <span class="hver">v2.0</span></div>
     </div>
-    <div style="text-align:right">
-      <div id="ocr-txt" class="ocrs loading"><span class="spin">⟳</span> Loading OCR…</div>
-      <div id="prog-wrap" style="display:none">
-        <div style="font-size:11px;color:var(--lt)" id="prog-lbl">0%</div>
-        <div class="pbar"><div class="pfill" id="prog-fill" style="width:0%"></div></div>
-      </div>
+    <div style="text-align:right" id="prog-wrap">
+      <div style="font-size:11px;color:var(--lt)" id="prog-lbl"></div>
+      <div class="pbar" style="width:76px"><div class="pfill" id="prog-fill" style="width:0%"></div></div>
     </div>
   </div>
 </div>
@@ -131,242 +118,146 @@ textarea{resize:vertical;line-height:1.55}
 <div id="main"><div id="root"></div></div>
 
 <script>
-const APP_VER='v1.11';
+const APP_VER='v2.0';
 const HTYPES=['Single-family detached','Single-family attached','Manufactured home','Apartment / multifamily','Commercial','Other'];
 const ATYPES=['Water Heater','Furnace / Boiler','Heat Pump','Air Conditioner','Refrigerator','Freezer','Dishwasher','Clothes Washer','Clothes Dryer','Range / Oven','Electrical Panel','Other'];
 
-// ── State ─────────────────────────────────────────────────────────────────────
+// Field definitions with visual hints to help surveyors find the value on the nameplate
+const FIELDS=[
+  {key:'manufacturer', label:'Manufacturer',    hint:'Usually the largest text or logo at the top of the nameplate.',            placeholder:'e.g. Rheem, Carrier, Lennox'},
+  {key:'model',        label:'Model number',    hint:'Look for "Model", "Mod", or "M/N:" — typically an alphanumeric code.',    placeholder:'e.g. XE50M12EC55U1'},
+  {key:'serial',       label:'Serial number',   hint:'Look for "Serial", "S/N:", or "Ser No." — often below the model number.', placeholder:'e.g. RH202112345'},
+  {key:'year',         label:'Year manufactured',hint:'Check the serial number — first 4 digits are often the year. Or look for "Date" or "MFG Date".', placeholder:'e.g. 2019'},
+  {key:'capacity',     label:'Capacity',        hint:'Look for GAL (gallons), TON, BTU, or KW on the nameplate.',               placeholder:'e.g. 50 GAL · 3 TON · 60,000 BTU'},
+  {key:'fuel',         label:'Fuel / energy source', hint:'Look for "Natural Gas", "Electric", "Propane", or "LP".',            placeholder:'e.g. Natural gas · Electric'},
+  {key:'efficiency',   label:'Efficiency rating',hint:'Look for UEF, EF, AFUE, SEER, SEER2, or HSPF on the label.',            placeholder:'e.g. UEF 0.93 · AFUE 96% · SEER 18'},
+  {key:'voltage',      label:'Voltage',         hint:'Look for "V", "Volts", or "VAC" — often near the electrical specs.',      placeholder:'e.g. 240V · 120/240V'},
+  {key:'inputOutput',  label:'Input / Output',  hint:'Look for "Input" or "Output" near a BTU or Watt value.',                  placeholder:'e.g. Input 60,000 BTUH'},
+];
+
 const S={
-  step:1, ocrState:'loading',
+  step:1,
   r:{siteId:'',address:'',contactName:'',email:'',homeType:'Single-family detached',yearBuilt:'',notes:''},
   items:[mkItem()],
 };
 
-// Sequential queue prevents concurrent recognize() calls
-let ocrQ=Promise.resolve();
-
 function uid(){return Math.random().toString(36).slice(2,10)}
-function mkItem(){return{id:uid(),type:'Water Heater',location:'',photos:[],combinedOcr:'',data:{manufacturer:'',model:'',serial:'',year:'',capacity:'',fuel:'',efficiency:'',voltage:'',inputOutput:'',notes:'',confidence:'Not processed'}}}
-function mkPhoto(file,preview){return{id:uid(),file,preview,status:'idle',ocrText:'',error:''}}
+function mkItem(){
+  const data={notes:'',confirmed:false};
+  FIELDS.forEach(f=>data[f.key]='');
+  return{id:uid(),type:'Water Heater',location:'',photos:[],activePhoto:0,data};
+}
+function mkPhoto(file,preview){return{id:uid(),file,preview}}
 function getItem(id){return S.items.find(i=>i.id===id)}
 function updItem(id,p){const x=S.items.findIndex(i=>i.id===id);if(x>=0)S.items[x]={...S.items[x],...p}}
-function errMsg(e){if(!e)return'Unknown error';if(typeof e==='string')return e;if(e.message)return e.message;try{return JSON.stringify(e)}catch{return String(e)}}
 
-// ── Tesseract v2 init ─────────────────────────────────────────────────────────
-// Using v2 (not v4) — stable CDN paths, no LSTM/SIMD WASM compatibility issues.
-// All three paths pinned to known-good unpkg versions.
-// Tesseract v2 — no custom paths.
-// When loaded from unpkg, the library auto-resolves worker, core, and language
-// data URLs relative to itself. Overriding any of them risks version mismatch
-// or endsWith() undefined errors. Only logger is overridden.
-let OCR_WORKER = null;
-
-async function initOCR(){
-  try{
-    if(typeof Tesseract === 'undefined') throw new Error('Tesseract not loaded');
-
-    OCR_WORKER = Tesseract.createWorker({
-      logger: () => {},
-      workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/worker.min.js',
-      corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@2.2.0/tesseract-core.wasm.js',
-      langPath: 'https://tessdata.projectnaptha.com/4.0.0'
-    });
-
-    await OCR_WORKER.load();
-    await OCR_WORKER.loadLanguage('eng');
-    await OCR_WORKER.initialize('eng');
-
-    S.ocrState='ready';
-    setOcrUI('ready','✓ OCR ready');
-  }catch(e){
-    S.ocrState='failed';
-    setOcrUI('failed','⚠ OCR failed to initialize');
-    console.error(e);
-  }
+function filledCount(item){return FIELDS.filter(f=>item.data[f.key]&&item.data[f.key].trim()).length}
+function pillCls(item){
+  const n=filledCount(item),tot=FIELDS.length;
+  if(item.data.confirmed)return'pill p-done';
+  if(n===0)return'pill p-empty';
+  return'pill p-partial';
+}
+function pillLabel(item){
+  if(item.data.confirmed)return'✓ Confirmed';
+  const n=filledCount(item);
+  return n===0?'Not started':`${n}/${FIELDS.length} fields`;
 }
 
-function setOcrUI(cls,txt){
-  const el=document.getElementById('ocr-txt');
-  el.className='ocrs '+cls;
-  el.innerHTML=txt;
-}
-
-async function _doOcr(itemId,photoId){
-  const item=getItem(itemId);if(!item)return;
-  const photo=item.photos.find(p=>p.id===photoId);
-  if(!photo||photo.status==='done')return;
-
-  photo.status='scanning';
-  photo.error='';
-  render();
-
-  try{
-    if(!OCR_WORKER) throw new Error('OCR worker not ready — reload the page');
-    const src=await prepareForOCR(photo.file);
-    const result=await OCR_WORKER.recognize(src);
-    const text=result?.data?.text || '';
-
-    photo.status='done';
-    photo.ocrText=text.trim();
-  }catch(err){
-    photo.status='error';
-    photo.error=errMsg(err);
-    console.error('OCR failed:',err);
-  }
-
-  _rebuildCombined(itemId);
-  render();
-}
-function setOcrUI(cls,txt){const el=document.getElementById('ocr-txt');el.className='ocrs '+cls;el.innerHTML=txt}
-
-// ── Sequential OCR queue ──────────────────────────────────────────────────────
-async function ocrPhoto(itemId,photoId){
-  ocrQ=ocrQ.then(()=>_doOcr(itemId,photoId)).catch(()=>{});
-  return ocrQ;
-}
-
-// Resize + grayscale image to a safe size for the v2 WASM heap
-// Mobile camera photos can be 10MB+; WASM needs <2MB input to avoid abort()
-function prepareForOCR(file){
-  return new Promise(res=>{
-    const img=new Image(), url=URL.createObjectURL(file);
-    img.onload=()=>{
-      URL.revokeObjectURL(url);
-      try{
-        // Max 900px on longest side — enough for nameplate text, safe for WASM
-        const MAX=900;
-        let w=img.naturalWidth, h=img.naturalHeight;
-        if(w>MAX||h>MAX){const r=Math.min(MAX/w,MAX/h);w=Math.round(w*r);h=Math.round(h*r);}
-        const cv=document.createElement('canvas');
-        cv.width=w; cv.height=h;
-        const ctx=cv.getContext('2d');
-        ctx.drawImage(img,0,0,w,h);
-        // Grayscale + mild contrast boost
-        const id=ctx.getImageData(0,0,w,h), d=id.data;
-        for(let i=0;i<d.length;i+=4){
-          const g=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];
-          const c=Math.min(255,Math.max(0,(g-128)*1.4+128));
-          d[i]=d[i+1]=d[i+2]=c;
-        }
-        ctx.putImageData(id,0,0);
-        // toBlob is async but reliable; fall back to original file if it fails
-        cv.toBlob(blob=>res(blob||file),'image/jpeg',0.82);
-      }catch(e){console.warn('Preprocess failed, using original',e);res(file);}
-    };
-    img.onerror=()=>{URL.revokeObjectURL(url);res(file);};
-    img.src=url;
-  });
-}
-
-async function _doOcr(itemId,photoId){
-  const item=getItem(itemId);if(!item)return;
-  const photo=item.photos.find(p=>p.id===photoId);
-  if(!photo||photo.status==='done')return;
-  photo.status='scanning';photo.error='';render();
-  try{
-    if(S.ocrState!=='ready')throw new Error('OCR engine not ready — reload the page');
-    // Resize first — prevents WASM abort() on large mobile photos
-    const src=await prepareForOCR(photo.file);
-    const result=await Tesseract.recognize(src,'eng');
-    const text=result?.data?.text??'';
-    photo.status='done';photo.ocrText=text.trim();
-  }catch(err){
-    photo.status='error';photo.error=errMsg(err);
-    console.error('OCR failed:',err);
-  }
-  _rebuildCombined(itemId);render();
-}
-function _rebuildCombined(itemId){
-  const item=getItem(itemId);if(!item)return;
-  const combined=item.photos.filter(p=>p.status==='done').map(p=>p.ocrText).filter(Boolean).join(' ');
-  updItem(itemId,{combinedOcr:combined,data:parseOCR(combined,item.type)});
-}
-
-// ── Add / remove photos ───────────────────────────────────────────────────────
-async function addPhotos(itemId,files){
-  if(!files||!files.length)return;
-  const item=getItem(itemId);if(!item)return;
-  const toOcr=[];
-  for(const file of Array.from(files)){
-    const ph=mkPhoto(file,URL.createObjectURL(file));
-    item.photos.push(ph);toOcr.push(ph.id);
-  }
-  render();
-  for(const pid of toOcr)await ocrPhoto(itemId,pid);
-}
-function removePhoto(itemId,photoId){
-  const item=getItem(itemId);if(!item)return;
-  item.photos=item.photos.filter(p=>p.id!==photoId);
-  _rebuildCombined(itemId);render();
-}
-
-// ── OCR text parser ───────────────────────────────────────────────────────────
-function wAfter(t,lbls,n=2){
-  const pts=String(t||'').replace(/[:#]/g,' ').split(/\s+/).filter(Boolean);
-  const up=pts.map(p=>p.toUpperCase());
-  for(const l of lbls){const lp=l.toUpperCase().split(' ');for(let i=0;i<=up.length-lp.length;i++){if(up.slice(i,i+lp.length).join(' ')===lp.join(' '))return pts.slice(i+lp.length,i+lp.length+n).join(' ')}}
-  return '';
-}
-function fUnit(t,units){
-  const pts=String(t||'').replace(/[:#]/g,' ').split(/\s+/).filter(Boolean);
-  for(let i=1;i<pts.length;i++){if(units.includes(pts[i].toUpperCase()))return`${pts[i-1]} ${pts[i]}`.toUpperCase()}
-  return '';
-}
-function iYear(s,t){const c=`${s} ${t}`;for(let y=1990;y<=2035;y++)if(c.includes(String(y)))return String(y);return ''}
-function parseOCR(text,app){
-  if(!text||!text.trim())return{manufacturer:'',model:'',serial:'',year:'',capacity:'',fuel:'',efficiency:'',voltage:'',inputOutput:'',notes:'',confidence:'Not processed'};
-  const raw=String(text).replace(/\r?\n/g,' ').trim(),up=raw.toUpperCase();
-  const manufacturer=wAfter(raw,['MANUFACTURER','MFR','MFG','BRAND','MAKE'],1);
-  const model=wAfter(raw,['MODEL','MODEL NO','MODEL NUMBER','MOD'],1);
-  const serial=wAfter(raw,['SERIAL','SERIAL NO','SERIAL NUMBER','S N','SER NO'],1);
-  const year=wAfter(raw,['MFG DATE','MANUFACTURED','DATE'],1)||iYear(serial,raw);
-  const capacity=fUnit(raw,['GAL','GALLON','GALLONS','TON','TONS','CFM','KW','KWH','BTUH','BTU']);
-  const voltage=fUnit(raw,['V','VOLTS','VOLT']);
-  const efficiency=up.includes('UEF')?`UEF ${wAfter(raw,['UEF'],1)}`:up.includes('AFUE')?`AFUE ${wAfter(raw,['AFUE'],1)}`:up.includes('SEER2')?`SEER2 ${wAfter(raw,['SEER2'],1)}`:up.includes('SEER')?`SEER ${wAfter(raw,['SEER'],1)}`:up.includes('ENERGY FACTOR')?`EF ${wAfter(raw,['ENERGY FACTOR'],1)}`:up.includes('HSPF')?`HSPF ${wAfter(raw,['HSPF'],1)}`:'';
-  const fuel=up.includes('NATURAL GAS')?'Natural gas':up.includes('PROPANE')||up.includes(' LP ')?'Propane':up.includes('ELECTRIC')?'Electric':up.includes('OIL')?'Fuel oil':'';
-  const inputOutput=up.includes('INPUT')?`INPUT ${wAfter(raw,['INPUT'],2)}`.trim():up.includes('OUTPUT')?`OUTPUT ${wAfter(raw,['OUTPUT'],2)}`.trim():'';
-  const hits=[manufacturer,model,serial,year,capacity,fuel,efficiency,voltage,inputOutput].filter(Boolean).length;
-  return{manufacturer,model,serial,year,capacity,fuel,efficiency,voltage,inputOutput,
-    notes:app==='Water Heater'&&!capacity?'Verify gallons/BTU/kW from nameplate.':'',
-    confidence:hits>=6?'High':hits>=4?'Medium':hits>=1?'Low':'Needs review'};
-}
-
-// ── Export ────────────────────────────────────────────────────────────────────
+// Export
 function dl(name,c,t){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=name;a.click()}
-function exportJSON(){dl(`verdant-survey-${S.r.siteId||'out'}.json`,JSON.stringify({appVersion:APP_VER,submittedAt:new Date().toISOString(),respondent:S.r,equipment:S.items.map(i=>({...i,photos:i.photos.map(p=>({id:p.id,status:p.status,ocrText:p.ocrText,error:p.error}))}))},null,2),'application/json')}
+function exportJSON(){
+  const out={appVersion:APP_VER,exportedAt:new Date().toISOString(),
+    note:'Data entered manually by surveyor from physical nameplate inspection. No automated image recognition was used.',
+    site:S.r,
+    equipment:S.items.map(i=>({id:i.id,type:i.type,location:i.location,
+      confirmedBySurveyor:i.data.confirmed,
+      photoCount:i.photos.length,
+      fields:Object.fromEntries(FIELDS.map(f=>[f.key,i.data[f.key]])),
+      notes:i.data.notes}))};
+  dl(`verdant-inventory-${S.r.siteId||'out'}.json`,JSON.stringify(out,null,2),'application/json');
+}
 function exportCSV(){
   const e=v=>`"${String(v??'').replace(/"/g,'""')}"`;
-  const h=['site_id','address','home_type','year_built','type','location','photo_count','manufacturer','model','serial','year','capacity','fuel','efficiency','voltage','input_output','confidence','notes','combined_ocr'];
-  const rows=S.items.map(i=>[S.r.siteId,S.r.address,S.r.homeType,S.r.yearBuilt,i.type,i.location,i.photos.length,i.data.manufacturer,i.data.model,i.data.serial,i.data.year,i.data.capacity,i.data.fuel,i.data.efficiency,i.data.voltage,i.data.inputOutput,i.data.confidence,i.data.notes,i.combinedOcr].map(e).join(','));
-  dl(`verdant-survey-${S.r.siteId||'out'}.csv`,[h.join(','),...rows].join('\n'),'text/csv');
+  const h=['site_id','address','home_type','year_built','type','location','confirmed','photo_count',
+    ...FIELDS.map(f=>f.key),'notes'];
+  const rows=S.items.map(i=>[S.r.siteId,S.r.address,S.r.homeType,S.r.yearBuilt,
+    i.type,i.location,i.data.confirmed?'yes':'no',i.photos.length,
+    ...FIELDS.map(f=>i.data[f.key]),i.data.notes].map(e).join(','));
+  dl(`verdant-inventory-${S.r.siteId||'out'}.csv`,[h.join(','),...rows].join('\n'),'text/csv');
 }
 
-// ── Render helpers ────────────────────────────────────────────────────────────
+// Helpers
 function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function pillCls(c){return c==='High'?'pill p-high':c==='Medium'?'pill p-med':c==='Low'?'pill p-low':c==='Needs review'?'pill p-rev':c==='Scanning...'?'pill p-scan':'pill p-none'}
-function stepBar(){
-  return`<div class="step-bar">${['Site info','Equipment','Review'].map((l,i)=>{
+function stepBar(labels){
+  return`<div class="step-bar">${labels.map((l,i)=>{
     const n=i+1,a=S.step==n,d=S.step>n;
     const bg=d?'var(--ac)':a?'var(--dk)':'var(--border)';
     const fg=d||a?'#fff':'var(--faint)';
-    const lc=a?'var(--dk)':d?'var(--ac)':'var(--faint)';
-    return`<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:0 0 auto"><div class="sdot" style="background:${bg};color:${fg}">${d?'✓':n}</div><div class="slbl" style="color:${lc}">${l}</div></div>${i<2?`<div class="sline" style="background:${d?'var(--ac)':'var(--border)'};margin-bottom:20px"></div>`:''}`
+    return`<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:0 0 auto">
+      <div class="sdot" style="background:${bg};color:${fg}">${d?'✓':n}</div>
+      <div class="slbl" style="color:${a?'var(--dk)':d?'var(--ac)':'var(--faint)'}">${l}</div>
+    </div>${i<labels.length-1?`<div class="sline" style="background:${d?'var(--ac)':'var(--border)'};margin-bottom:20px"></div>`:''}`
   }).join('')}</div>`;
 }
 
-// ── Render ────────────────────────────────────────────────────────────────────
+// Photo management
+function addPhotos(itemId,files){
+  if(!files||!files.length)return;
+  const item=getItem(itemId);if(!item)return;
+  for(const f of Array.from(files)){
+    item.photos.push(mkPhoto(f,URL.createObjectURL(f)));
+  }
+  item.activePhoto=item.photos.length-1;
+  render();
+}
+function removePhoto(itemId,photoIdx){
+  const item=getItem(itemId);if(!item)return;
+  item.photos.splice(photoIdx,1);
+  item.activePhoto=Math.max(0,Math.min(item.activePhoto,item.photos.length-1));
+  render();
+}
+function setActivePhoto(itemId,idx){
+  const item=getItem(itemId);if(!item)return;
+  item.activePhoto=idx;render();
+}
+
+// Zoom toggle
+function toggleZoom(el,e){
+  if(el.classList.contains('zoomed')){
+    el.classList.remove('zoomed');
+    el.style.transform='';
+  }else{
+    const rect=el.getBoundingClientRect();
+    const ox=((e.clientX-rect.left)/rect.width*100).toFixed(1)+'%';
+    const oy=((e.clientY-rect.top)/rect.height*100).toFixed(1)+'%';
+    el.style.setProperty('--ox',ox);
+    el.style.setProperty('--oy',oy);
+    el.style.transform='scale(2.8)';
+    el.classList.add('zoomed');
+  }
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────────
 function render(){
   const root=document.getElementById('root');
   const{step,items,r}=S;
-  const proc=items.filter(i=>i.data.confidence!=='Not processed').length;
-  const pct=items.length?Math.round(proc/items.length*100):0;
+  const confirmed=items.filter(i=>i.data.confirmed).length;
+  const started=items.filter(i=>filledCount(i)>0).length;
+  const pct=items.length?Math.round(confirmed/items.length*100):0;
   const pw=document.getElementById('prog-wrap');
-  if(step===2){pw.style.display='block';document.getElementById('prog-lbl').textContent=pct+'%';document.getElementById('prog-fill').style.width=pct+'%'}
-  else pw.style.display='none';
+  if(step===2){
+    pw.style.display='block';
+    document.getElementById('prog-lbl').textContent=`${confirmed}/${items.length} confirmed`;
+    document.getElementById('prog-fill').style.width=pct+'%';
+  } else pw.style.display=step===1?'none':'block';
 
-  // ── Step 1 ──────────────────────────────────────────────────────────────
+  // ── Step 1 ────────────────────────────────────────────────────────────────
   if(step===1){
-    root.innerHTML=stepBar()+`
+    root.innerHTML=stepBar(['Site info','Equipment','Review'])+`
+    <div class="info-box" style="margin-bottom:16px">
+      <b>How this works:</b> You'll photograph each appliance nameplate as a visual reference, then manually read and enter the data you see. Your entries are confirmed field-by-field before saving. All data stays on this device and is exported directly to you.
+    </div>
     <div class="card">
       <div class="card-head"><span style="font-weight:800;font-size:16px;color:var(--dk)">Site information</span></div>
       <div class="card-body">
@@ -380,8 +271,8 @@ function render(){
           <div><label class="lbl">Home type</label><select id="f-homeType">${HTYPES.map(t=>`<option${t===r.homeType?' selected':''}>${t}</option>`).join('')}</select></div>
           <div><label class="lbl">Year built</label><input id="f-yearBuilt" value="${esc(r.yearBuilt)}" placeholder="1987" inputmode="numeric"></div>
         </div>
-        <div><label class="lbl">Survey notes</label><textarea id="f-notes" rows="3" placeholder="Any context about this home or program…">${esc(r.notes)}</textarea></div>
-        <div style="display:flex;justify-content:flex-end;padding-top:2px">
+        <div><label class="lbl">Survey notes</label><textarea id="f-notes" rows="2" placeholder="Any context about this home…">${esc(r.notes)}</textarea></div>
+        <div style="display:flex;justify-content:flex-end">
           <button class="btn btn-primary" onclick="step1Next()">Next: Add equipment →</button>
         </div>
       </div>
@@ -389,103 +280,137 @@ function render(){
     return;
   }
 
-  // ── Step 2 ──────────────────────────────────────────────────────────────
+  // ── Step 2 ────────────────────────────────────────────────────────────────
   if(step===2){
     const cards=items.map((item,idx)=>{
-      const c=item.data.confidence;
-      const scanning=item.photos.filter(p=>p.status==='scanning');
-      const done=item.photos.filter(p=>p.status==='done');
-      const errs=item.photos.filter(p=>p.status==='error');
-      const thumbs=item.photos.map(p=>`
-        <div class="photo-thumb">
-          <img src="${p.preview}" alt="">
-          ${p.status==='scanning'?`<div class="scan-overlay"><span class="spin" style="color:#fff;font-size:18px">⟳</span></div>`:''}
-          ${p.status==='done'?`<div class="done-badge">✓ OCR</div>`:''}
-          ${p.status==='error'?`<div class="err-badge" title="${esc(p.error)}">! ERR</div>`:''}
-          <button class="del-photo" onclick="removePhoto('${item.id}','${p.id}')">×</button>
-        </div>`).join('');
-      let statusHtml='';
-      if(scanning.length) statusHtml+=`<div class="sbar s-scan"><span class="spin" style="flex-shrink:0">⟳</span> Scanning ${scanning.length} photo(s)…</div>`;
-      if(!scanning.length&&done.length&&!errs.length) statusHtml+=`<div class="sbar s-done">✓ ${done.length} photo(s) scanned — ${(item.combinedOcr||'').trim().split(/\s+/).filter(Boolean).length} words extracted</div>`;
-      if(errs.length) statusHtml+=`<div class="sbar s-err"><div>⚠ ${errs.length} photo(s) failed<div class="err-detail">${errs.map(p=>esc(p.error||'unknown')).join(' · ')}</div></div></div>`;
-      if(S.ocrState==='failed') statusHtml+=`<div class="sbar s-warn">⚠ OCR engine not loaded — type nameplate text in the box below, then tap Re-parse</div>`;
+      const pc=pillCls(item), pl=pillLabel(item);
+      const ap=item.photos[item.activePhoto];
+
+      // Photo viewer
+      let photoHtml='';
+      if(item.photos.length===0){
+        photoHtml=`
+        <div class="photo-zone">
+          <label>
+            <input type="file" accept="image/*" multiple style="display:none" onchange="addPhotos('${item.id}',this.files);this.value=''">
+            <div class="photo-add-btn">
+              <span class="photo-add-icon">📷</span>
+              <span style="font-weight:700;color:var(--dk);font-size:15px">Add nameplate photo(s)</span>
+              <span style="font-size:13px;color:var(--faint)">Tap to take a photo or upload from camera roll</span>
+            </div>
+          </label>
+        </div>`;
+      } else {
+        const thumbs=item.photos.map((p,i)=>`
+          <div class="photo-thumb${i===item.activePhoto?' active':''}" onclick="setActivePhoto('${item.id}',${i})">
+            <img src="${p.preview}" alt="">
+            <button class="delbtn" onclick="event.stopPropagation();removePhoto('${item.id}',${i})">×</button>
+          </div>`).join('');
+        photoHtml=`
+        <div class="photo-zone">
+          <div class="photo-main">
+            <img src="${ap.preview}" alt="Nameplate" id="pimg-${item.id}"
+              onclick="toggleZoom(this,event)">
+            <div class="zoom-hint">Tap to zoom</div>
+          </div>
+          ${item.photos.length>1||true?`<div class="photo-thumb-row">
+            ${thumbs}
+            <label class="photo-add-thumb" title="Add photo">
+              <input type="file" accept="image/*" multiple style="display:none" onchange="addPhotos('${item.id}',this.files);this.value=''">
+              <span style="font-size:18px">+</span>
+              <span>Add</span>
+            </label>
+          </div>`:''}
+          <div class="photo-actions">
+            <label class="btn btn-primary btn-sm" style="cursor:pointer">
+              <input type="file" accept="image/*" capture="environment" style="display:none" onchange="addPhotos('${item.id}',this.files);this.value=''">
+              📷 Camera
+            </label>
+            <label class="btn btn-ghost btn-sm" style="cursor:pointer">
+              <input type="file" accept="image/*" multiple style="display:none" onchange="addPhotos('${item.id}',this.files);this.value=''">
+              📁 Upload
+            </label>
+            <span style="font-size:12px;color:var(--faint);align-self:center;margin-left:4px">${item.photos.length} photo${item.photos.length!==1?'s':''} · tap photo to zoom</span>
+          </div>
+        </div>`;
+      }
+
+      // Confirmation checklist view vs edit view
+      const allConfirmed=item.data.confirmed;
+      let fieldsHtml='';
+      if(allConfirmed){
+        // Show read-only confirm checklist
+        fieldsHtml=`
+        <div style="display:grid;gap:8px">
+          ${FIELDS.map(f=>`
+          <div class="confirm-row checked" onclick="unconfirm('${item.id}')">
+            <div class="confirm-check">✓</div>
+            <div class="confirm-label">${f.label}</div>
+            <div class="confirm-val">${esc(item.data[f.key])||'<span style="color:var(--faint);font-style:italic">blank</span>'}</div>
+          </div>`).join('')}
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#EFF6E4;border-radius:10px;border:1.5px solid var(--ac)">
+          <span style="font-size:20px">✓</span>
+          <span style="font-size:14px;font-weight:700;color:var(--md)">Surveyor confirmed all fields</span>
+          <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="unconfirm('${item.id}')">Edit</button>
+        </div>`;
+      } else {
+        // Editable fields with hints
+        fieldsHtml=`
+        <div class="sec">Read from the nameplate and enter what you see</div>
+        <div style="display:grid;gap:12px">
+          ${FIELDS.map(f=>`
+          <div class="field-wrap">
+            <label class="lbl">${f.label}</label>
+            <input value="${esc(item.data[f.key])}" placeholder="${esc(f.placeholder)}"
+              oninput="updD('${item.id}','${f.key}',this.value)">
+            <div class="field-hint"><span class="hint-icon">?</span>${f.hint}</div>
+          </div>`).join('')}
+          <div class="field-wrap">
+            <label class="lbl">Reviewer notes</label>
+            <textarea rows="2" placeholder="Condition notes, access issues, additional observations…"
+              oninput="updD('${item.id}','notes',this.value)">${esc(item.data.notes)}</textarea>
+          </div>
+        </div>
+        <button class="btn btn-accent" style="width:100%" onclick="confirmItem('${item.id}')">
+          ✓ I've verified these fields from the nameplate — confirm
+        </button>`;
+      }
 
       return`
       <div class="card" id="card-${item.id}">
         <div class="card-head">
-          <div style="display:flex;align-items:center;gap:8px;min-width:0">
+          <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1">
             <span style="font-weight:800;font-size:15px;color:var(--dk)">#${idx+1}</span>
-            <span style="font-weight:700;font-size:15px;color:var(--text)">${esc(item.type)}</span>
+            <span style="font-weight:700;font-size:15px">${esc(item.type)}</span>
             ${item.location?`<span style="font-size:13px;color:var(--faint)">· ${esc(item.location)}</span>`:''}
           </div>
           <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-            <span class="${pillCls(c)}">${c}</span>
-            <button class="rmv" onclick="removeItem('${item.id}')" title="Remove">×</button>
+            <span class="${pc}">${pl}</span>
+            <button class="rmv" onclick="removeItem('${item.id}')">×</button>
           </div>
         </div>
         <div class="card-body">
           <div class="g2">
             <div><label class="lbl">Appliance type</label>
-              <select onchange="updF('${item.id}','type',this.value)">${ATYPES.map(t=>`<option${t===item.type?' selected':''}>${t}</option>`).join('')}</select>
+              <select onchange="updF('${item.id}','type',this.value)">
+                ${ATYPES.map(t=>`<option${t===item.type?' selected':''}>${t}</option>`).join('')}
+              </select>
             </div>
             <div><label class="lbl">Location in home</label>
-              <input placeholder="Basement, utility closet…" value="${esc(item.location)}" oninput="updF('${item.id}','location',this.value)">
+              <input placeholder="Basement, utility closet…" value="${esc(item.location)}"
+                oninput="updF('${item.id}','location',this.value)">
             </div>
           </div>
-
-          <div>
-            <label class="lbl" style="margin-bottom:9px">
-              Nameplate photos
-              <span style="font-size:10px;color:var(--faint);font-weight:500;text-transform:none;letter-spacing:0"> — add multiple if the label spans several stickers</span>
-            </label>
-            ${item.photos.length
-              ?`<div class="photo-strip">${thumbs}</div>`
-              :`<div style="font-size:13px;color:var(--faint);padding:4px 0 6px">No photos yet — use a button below</div>`}
-            <div class="photo-actions">
-              <input type="file" accept="image/*" capture="environment" id="cam-${item.id}" style="display:none" onchange="addPhotos('${item.id}',this.files);this.value=''">
-              <input type="file" accept="image/*" multiple id="upl-${item.id}" style="display:none" onchange="addPhotos('${item.id}',this.files);this.value=''">
-              <button class="btn btn-primary btn-sm" onclick="document.getElementById('cam-${item.id}').click()">📷 Take photo</button>
-              <button class="btn btn-ghost btn-sm" onclick="document.getElementById('upl-${item.id}').click()">📁 Upload image</button>
-            </div>
-            ${statusHtml}
-          </div>
-
-          <div>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
-              <label class="lbl" style="margin:0">Combined OCR text</label>
-              <button class="btn btn-ghost btn-sm" onclick="reparse('${item.id}')">⟳ Re-parse</button>
-            </div>
-            <textarea class="mono" rows="5"
-              placeholder="OCR text from all photos appears here automatically. Edit corrections then tap Re-parse. Or type nameplate text manually."
-              oninput="updCombined('${item.id}',this.value)">${esc(item.combinedOcr)}</textarea>
-          </div>
-
-          <div>
-            <div class="sec">Extracted fields — verify &amp; correct as needed</div>
-            <div class="fgrid">
-              <div><label class="lbl">Manufacturer</label><input class="mono" value="${esc(item.data.manufacturer)}" oninput="updD('${item.id}','manufacturer',this.value)"></div>
-              <div><label class="lbl">Model number</label><input class="mono" value="${esc(item.data.model)}" oninput="updD('${item.id}','model',this.value)"></div>
-              <div><label class="lbl">Serial number</label><input class="mono" value="${esc(item.data.serial)}" oninput="updD('${item.id}','serial',this.value)"></div>
-              <div><label class="lbl">Year manufactured</label><input class="mono" value="${esc(item.data.year)}" placeholder="e.g. 2019" inputmode="numeric" oninput="updD('${item.id}','year',this.value)"></div>
-              <div><label class="lbl">Capacity</label><input class="mono" value="${esc(item.data.capacity)}" placeholder="50 GAL · 3 TON" oninput="updD('${item.id}','capacity',this.value)"></div>
-              <div><label class="lbl">Fuel type</label><input class="mono" value="${esc(item.data.fuel)}" oninput="updD('${item.id}','fuel',this.value)"></div>
-              <div><label class="lbl">Efficiency rating</label><input class="mono" value="${esc(item.data.efficiency)}" placeholder="UEF 0.93 · SEER 16" oninput="updD('${item.id}','efficiency',this.value)"></div>
-              <div><label class="lbl">Voltage</label><input class="mono" value="${esc(item.data.voltage)}" placeholder="240V · 120V" oninput="updD('${item.id}','voltage',this.value)"></div>
-            </div>
-            <div style="margin-top:11px"><label class="lbl">Input / Output</label>
-              <input class="mono" value="${esc(item.data.inputOutput)}" placeholder="INPUT 60,000 BTUH" oninput="updD('${item.id}','inputOutput',this.value)">
-            </div>
-            <div style="margin-top:11px"><label class="lbl">Reviewer notes</label>
-              <textarea rows="2" placeholder="Certifications, amperage, condition notes…" oninput="updD('${item.id}','notes',this.value)">${esc(item.data.notes)}</textarea>
-            </div>
-          </div>
+          ${photoHtml}
+          ${fieldsHtml}
         </div>
       </div>`;
     }).join('');
 
-    root.innerHTML=stepBar()+`
+    root.innerHTML=stepBar(['Site info','Equipment','Review'])+`
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-        <span style="font-size:13px;color:var(--muted);font-weight:600">${items.length} appliance${items.length!==1?'s':''} logged</span>
+        <span style="font-size:13px;color:var(--muted);font-weight:600">${items.length} appliance${items.length!==1?'s':''}</span>
         <button class="btn btn-primary btn-sm" onclick="addItem()">+ Add appliance</button>
       </div>
       ${cards}
@@ -496,9 +421,9 @@ function render(){
     return;
   }
 
-  // ── Step 3 ──────────────────────────────────────────────────────────────
-  const doneItems=items.filter(i=>i.photos.some(p=>p.status==='done')).length;
-  const highItems=items.filter(i=>i.data.confidence==='High').length;
+  // ── Step 3 ────────────────────────────────────────────────────────────────
+  const confCount=items.filter(i=>i.data.confirmed).length;
+  const partCount=items.filter(i=>!i.data.confirmed&&filledCount(i)>0).length;
   const rev=items.map((item,i)=>`
     <div class="card" style="margin-bottom:11px">
       <div class="card-head">
@@ -506,22 +431,26 @@ function render(){
           <span style="font-weight:800;color:var(--dk)">#${i+1}</span>
           <span style="font-weight:700">${esc(item.type)}${item.location?' — '+esc(item.location):''}</span>
         </div>
-        <span class="${pillCls(item.data.confidence)}">${item.data.confidence}</span>
+        <span class="${pillCls(item)}">${pillLabel(item)}</span>
       </div>
       <div style="padding:13px 15px">
-        ${item.photos.filter(p=>p.preview).length?`<div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:11px;padding-bottom:2px">${item.photos.filter(p=>p.preview).map(p=>`<img src="${p.preview}" style="height:78px;width:auto;border-radius:8px;flex-shrink:0;border:1px solid var(--border);object-fit:cover">`).join('')}</div>`:''}
-        <div class="rrow">${[['Manufacturer',item.data.manufacturer],['Model',item.data.model],['Serial',item.data.serial],['Year',item.data.year],['Capacity',item.data.capacity],['Fuel',item.data.fuel],['Efficiency',item.data.efficiency],['Voltage',item.data.voltage],['Input/Output',item.data.inputOutput]].map(([k,v])=>`<div class="rcell"><span class="rkey">${k}:</span> <span class="rval${!v?' e':''}">${v||'—'}</span></div>`).join('')}</div>
+        ${item.photos.length?`<div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:11px;padding-bottom:2px">
+          ${item.photos.map(p=>`<img src="${p.preview}" style="height:70px;width:auto;border-radius:7px;flex-shrink:0;border:1px solid var(--border);object-fit:cover">`).join('')}
+        </div>`:''}
+        <div class="rrow">
+          ${FIELDS.map(f=>`<div class="rcell"><span class="rkey">${f.label}:</span> <span class="rval${!item.data[f.key]?' e':''}">${esc(item.data[f.key])||'—'}</span></div>`).join('')}
+        </div>
         ${item.data.notes?`<div class="nbx">${esc(item.data.notes)}</div>`:''}
       </div>
     </div>`).join('');
 
-  root.innerHTML=stepBar()+`
+  root.innerHTML=stepBar(['Site info','Equipment','Review'])+`
     <div class="card" style="padding:16px;margin-bottom:14px">
-      <div style="font-weight:800;font-size:16px;color:var(--dk);margin-bottom:13px">Survey summary</div>
+      <div style="font-weight:800;font-size:16px;color:var(--dk);margin-bottom:13px">Inventory summary</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:13px">
-        <div class="stat"><div class="stat-l">Appliances</div><div class="stat-v">${items.length}</div></div>
-        <div class="stat"><div class="stat-l">Scanned</div><div class="stat-v">${doneItems}</div></div>
-        <div class="stat"><div class="stat-l">High conf.</div><div class="stat-v">${highItems}</div></div>
+        <div class="stat"><div class="stat-l">Total</div><div class="stat-v">${items.length}</div></div>
+        <div class="stat"><div class="stat-l">Confirmed</div><div class="stat-v">${confCount}</div></div>
+        <div class="stat"><div class="stat-l">Partial</div><div class="stat-v">${partCount}</div></div>
       </div>
       <div style="font-size:13px;color:var(--muted)">
         <b style="color:var(--text)">Site:</b> ${esc(r.address)||'—'} &nbsp;·&nbsp;
@@ -532,34 +461,45 @@ function render(){
     ${rev}
     <div class="card" style="padding:16px;margin-bottom:14px">
       <div style="font-weight:800;font-size:16px;color:var(--dk);margin-bottom:11px">Export data</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:11px">
         <button class="btn btn-primary" onclick="exportJSON()">⬇ Export JSON</button>
         <button class="btn btn-accent" onclick="exportCSV()">⬇ Export CSV</button>
       </div>
-      <div style="font-size:12px;color:var(--faint)">All data stays on this device. Nothing is sent to any server.</div>
+      <div style="font-size:12px;color:var(--faint);line-height:1.6">
+        Data is exported directly to you. No information is transmitted to any server.<br>
+        Photos remain on this device and are not included in the export.
+      </div>
     </div>
     <button class="btn btn-ghost" onclick="go(2)">← Back to edit</button>`;
 }
 
 // ── Handlers ──────────────────────────────────────────────────────────────────
 function go(n){S.step=n;render();window.scrollTo(0,0)}
-function step1Next(){['siteId','contactName','address','email','homeType','yearBuilt','notes'].forEach(k=>{const el=document.getElementById('f-'+k);if(el)S.r[k]=el.value});go(2)}
+function step1Next(){
+  ['siteId','contactName','address','email','homeType','yearBuilt','notes'].forEach(k=>{
+    const el=document.getElementById('f-'+k);if(el)S.r[k]=el.value;
+  });
+  go(2);
+}
 function addItem(){S.items.push(mkItem());render()}
 function removeItem(id){if(S.items.length>1)S.items=S.items.filter(i=>i.id!==id);render()}
 function updF(id,k,v){updItem(id,{[k]:v})}
 function updD(id,k,v){const it=getItem(id);if(it)updItem(id,{data:{...it.data,[k]:v}})}
-function updCombined(id,v){const it=getItem(id);if(it)updItem(id,{combinedOcr:v})}
-function reparse(id){const it=getItem(id);if(!it)return;updItem(id,{data:parseOCR(it.combinedOcr,it.type)});render()}
+function confirmItem(id){
+  const it=getItem(id);if(!it)return;
+  updItem(id,{data:{...it.data,confirmed:true}});
+  render();
+  // Scroll to next unconfirmed card
+  const next=S.items.find(i=>!i.data.confirmed);
+  if(next){setTimeout(()=>{const el=document.getElementById('card-'+next.id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},100);}
+}
+function unconfirm(id){
+  const it=getItem(id);if(!it)return;
+  updItem(id,{data:{...it.data,confirmed:false}});
+  render();
+}
 
-// ── Boot ──────────────────────────────────────────────────────────────────────
 render();
-window.addEventListener('tesseract-ready',initOCR);
-</script>
-
-<script
-  src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/tesseract.min.js"
-  onload="window.dispatchEvent(new Event('tesseract-ready'))"
-  onerror="(function(){S.ocrState='failed';document.getElementById('ocr-txt').className='ocrs failed';document.getElementById('ocr-txt').innerHTML='⚠ Could not load OCR library'})()">
 </script>
 </body>
 </html>
